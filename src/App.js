@@ -12,6 +12,11 @@ import Navbar from './components/navbar/Navbar';
 import Menu from './components/menu/Menu';
 import Footer from './components/footer/Footer';
 import Login from './pages/login/login';
+import "./styles/global.scss"
+import Qrcodes from './pages/qrcodes/qrcodes';
+import Barcode from './pages/barcode/Barcode';
+import Qrcode from './pages/qrcode/Qrcode';
+import Untrack from './pages/untrack/Untrack';
 
 function App() {
     const Layout = ()=> {
@@ -48,8 +53,28 @@ function App() {
                     element: <Item/>,
                 },
                 {
+                    path: "untrack",
+                    element: <Untrack/>,
+                },
+                {
+                    path: "item",
+                    element: <Item/>,
+                },
+                {
                     path: "barcodes",
                     element: <Barcodes/>,
+                },
+                {
+                    path: "barcode",
+                    element: <Barcode/>,
+                },
+                {
+                    path: "qrcodes",
+                    element: <Qrcodes/>,
+                },
+                {
+                    path: "qrcode",
+                    element: <Qrcode/>,
                 },
             ]
         },

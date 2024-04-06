@@ -1,0 +1,56 @@
+@import "./variables.scss";
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.main {
+    font-family: "Poppins", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    background-color: $main-bg;
+    color: $main-color;
+}
+
+.container {
+    display: flex;
+}
+
+.menuContainer {
+    width: 250px;
+    padding: 5px 20px;
+    border-right: 2px solid $soft-bg;
+}
+
+.contentContainer {
+    padding: 5px 20px;
+    width: 100%;
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: transparent; /* You can customize the track background color here */
+  }
+  
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #888; /* You can customize the handle color here */
+    border-radius: 4px;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555; /* You can customize the handle color on hover here */
+  }
