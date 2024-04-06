@@ -1,0 +1,18 @@
+@import "../../styles/variables.scss";
+
+.recent {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    span {
+        display: flex;
+        align-items: center;
+        color: rgb(27, 27, 27);
+        // // background: linear-gradient(to left, #434343 0%, #222222 30%, black 222222%);
+        // background: linear-gradient(to right, #0f0c29, #302b63, #24243e);
+        // -webkit-text-fill-color: transparent;
+        // -webkit-background-clip: text;
+        font-size: 90px;
+    }
+}

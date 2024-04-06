@@ -1,0 +1,98 @@
+@import "../../styles/variables.scss";
+
+.additem {
+    width: 99.5vw;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: rgba(0,0,0,0.725);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    .modal {
+        padding: 50px;
+        border-radius: 10px;
+        background-color: $main-bg;
+        position: relative;
+        
+        h1 {
+            margin-top: -20px;
+            margin-bottom: 40px;
+            font-size: 24px;
+            color: $soft-color;
+        }
+        .close {
+            font-size: 20px;
+            position: absolute;
+            top: 5px;
+            right: 15px;
+            cursor: pointer;
+        }
+
+        form {
+            display: flex;
+            flex-wrap: wrap ;
+            max-width: 400px;
+            justify-content: space-between;
+
+            .item {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+                margin-bottom: 20px;
+                
+
+                label {
+                    font-size: 14px;
+                }
+
+                input {
+                    font-family: "Poppins", sans-serif;
+                    min-width: 191px;
+                    padding: 10px;
+                    background-color: transparent;
+                    color: $soft-color;
+                    outline: none;
+                    border: 1px solid $soft-color;
+                    border-radius: 5px;
+                    color-scheme: dark;
+                }
+
+                
+            }
+            .buttonDiv {
+                width: 100%;
+                display: flex;
+                outline: none;
+                cursor: pointer;
+                font-size: 16px;
+                line-height: 20px;
+                font-weight: 600;
+                border-radius: 8px;
+                padding: 12px 22px;
+                border: none;
+                transition: box-shadow 0.2s ease 0s, -ms-transform 0.1s ease 0s, -webkit-transform 0.1s ease 0s, transform 0.1s ease 0s;
+                background: linear-gradient(to right,#70c6cf,#73a9fa);
+                justify-content: center;
+                align-items: center;
+            
+                button {
+                    font-family: "Poppins", sans-serif;
+                    font-weight: 500;
+                    color: #000000;
+                    background: none;
+                    border: none;
+                    cursor: pointer;
+                    
+                }
+            }
+            button {
+                width: 100%;
+                pad: 10px;
+                cursor: pointer;
+            }
+        }
+    }
+}

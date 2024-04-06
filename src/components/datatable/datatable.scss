@@ -1,0 +1,17 @@
+.datatable {
+    .dataGrid {
+        background: #edf9ff;
+        padding: 16px;
+        .MuiDataGrid-toolbarContainer {
+            flex-direction: row-reverse;
+        }
+        .MuiDataGrid-main {
+            .MuiDataGrid-virtualScroller {
+                .MuiDataGrid-topContainer {
+                    --DataGrid-containerBackground: #edf9ff;
+                }
+            }
+        }
+    }
+    
+}

@@ -1,0 +1,106 @@
+@import "../../styles/variables.scss";
+
+.location {
+    .somediv {
+        display: flex;
+        gap: 10px;
+        h1 {
+            margin-bottom: 20px;
+        }    
+    }
+    .list {
+        padding: 5px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        justify-content: space-between;
+        .listItem {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 10px;
+            border-radius: 10px;
+            
+            .locItemInfo {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                gap: 34px;
+                .itemNumber {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 28px;
+                    font-weight: 200;
+                }
+                .locationTexts {
+                    display: flex;
+                    .trackedItemName {
+                        font-size: 20px;
+                        font-weight: 700;
+                    }
+                    
+                }
+                
+            }
+            .category {
+                display: flex;
+                justify-content: flex-end;
+                min-width: 100px;
+                font-size: 13px;
+                font-weight: 300;
+            }
+            &:hover {
+                background-color: $soft-bg;
+            }
+        }
+    }
+    .ctaTrackedItem {
+        display: flex;
+        justify-content: end;
+        align-items: center;
+        gap: 10px;
+        .toTrackedItemLink {
+            min-width: 110px;
+            display: flex;
+            cursor: pointer;
+            font-size: 13px;
+            line-height: 20px;
+            font-weight: 600;
+            padding: 12px 22px;
+            border: none;
+            transition: box-shadow 0.2s ease 0s, -ms-transform 0.1s ease 0s, -webkit-transform 0.1s ease 0s, transform 0.1s ease 0s;
+            border: 1px solid #6c7485;
+            border-radius: 8px;
+            justify-content: center;
+            align-items: center;
+        }
+        .addTrackedItemButton {
+            min-width: 110px;
+            display: flex;
+            outline: none;
+            cursor: pointer;
+            font-size: 16px;
+            line-height: 20px;
+            font-weight: 600;
+            border-radius: 8px;
+            padding: 12px 22px;
+            border: none;
+            transition: box-shadow 0.2s ease 0s, -ms-transform 0.1s ease 0s, -webkit-transform 0.1s ease 0s, transform 0.1s ease 0s;
+            background: linear-gradient(to right,#70c6cf,#73a9fa);
+            justify-content: center;
+            align-items: center;
+        
+            button {
+                font-family: "Poppins", sans-serif;
+                font-weight: 500;
+                color: #000000;
+                background: none;
+                border: none;
+                cursor: pointer;
+
+            }
+        
+        }
+    }
+}
