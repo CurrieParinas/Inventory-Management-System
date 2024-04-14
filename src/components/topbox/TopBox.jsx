@@ -1,10 +1,29 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from "react-router-dom"
 import "./topbox.scss"
 import { trackedItems } from '../../sidebar'
 import box from "../../assets/box.svg"
 
 const TopBox = () => {
+    const[trackedItems, setTrackedItems]=useState([])
+
+    const fetchTrackedItems = async () => {
+        try {
+          const response = await fetch('http://localhost:8080/inventory/itemMedium/fiveLastModifiedTracked');
+          if (!response.ok) {
+            throw new Error('Failed to fetch tracked items');
+          }
+          const data = await response.json();
+          setTrackedItems(data);
+        } catch (error) {
+          console.error('Error fetching tracked items:', error);
+        }
+      };
+
+    useEffect(() => {
+        fetchTrackedItems();
+    }, []);
+
   return (
     <div className='topbox' >
         <div className="somediv">
@@ -13,9 +32,9 @@ const TopBox = () => {
         </div>
         <div className="list">
             {trackedItems.map(item=>(
-                <div className="listItem" key={item.id}>
+                <div className="listItem" key={item.ITEM_MEDIUM_ID}>
                     <div className="trackedItemInfo">
-                        <div className="itemNumber" style={{minWidth: '16.5px'}}>{item.id}</div>
+                        <div className="itemNumber" style={{minWidth: '16.5px'}}>{item.ITEM_MEDIUM_ID}</div>
                         <div className="itemTexts">
                             <span className="trackedItemName">{item.itemName}</span>
                             <div className="subtext">
