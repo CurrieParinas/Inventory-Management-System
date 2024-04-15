@@ -1,10 +1,29 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from "react-router-dom"
 import "./unt.scss";
 import { untrackedItems } from '../../sidebar'
 import openbox from "../../assets/open-box.svg"
 
 const unt = () => {
+    const[untrackedItems, setUntrackedItems]=useState([])
+
+    const fetchUntrackedItems = async () => {
+        try {
+          const response = await fetch('http://localhost:8080/inventory/itemMedium/fiveLastModifiedUntracked');
+          if (!response.ok) {
+            throw new Error('Failed to fetch untracked items');
+          }
+          const data = await response.json();
+          setUntrackedItems(data);
+        } catch (error) {
+          console.error('Error fetching untracked items:', error);
+        }
+      };
+
+    useEffect(() => {
+        fetchUntrackedItems();
+    }, []);
+
   return (
     <div className='unt' >
         <div className="somediv">
@@ -13,14 +32,14 @@ const unt = () => {
         </div>
         <div className="list">
             {untrackedItems.map(item=>(
-                <div className="listItem" key={item.id}>
+                <div className="listItem" key={item.ITEM_MEDIUM_ID}>
                     <div className="trackedItemInfo">
-                        <div className="itemNumber" style={{minWidth: '16.5px'}}>{item.id}</div>
+                        <div className="itemNumber" style={{minWidth: '16.5px'}}>{item.ITEM_MEDIUM_ID}</div>
                         <div className="itemTexts">
-                            <span className="trackedItemName">{item.itemName}</span>
+                            <span className="trackedItemName">{item.NAME}</span>
                             <div className="subtext">
-                                <span className="category"><i>{item.category}, </i></span>
-                                <span className="brand"><i>{item.brand}</i></span>
+                                <span className="category"><i>{item.DESCRIPTION}, </i></span>
+                                <span className="brand"><i>{item.BRAND}</i></span>
                             </div>
                         </div>
                     </div>

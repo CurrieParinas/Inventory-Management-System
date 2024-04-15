@@ -36,14 +36,14 @@ const TopBox = () => {
                     <div className="trackedItemInfo">
                         <div className="itemNumber" style={{minWidth: '16.5px'}}>{item.ITEM_MEDIUM_ID}</div>
                         <div className="itemTexts">
-                            <span className="trackedItemName">{item.itemName}</span>
+                            <span className="trackedItemName">{item.NAME}</span>
                             <div className="subtext">
-                                <span className="category"><i>{item.category}, </i></span>
-                                <span className="brand"><i>{item.brand}</i></span>
+                                <span className="category"><i>{item.DESCRIPTION}, </i></span>
+                                <span className="brand"><i>{item.BRAND}</i></span>
                             </div>
                         </div>
                     </div>
-                    <span className="amount">{item.quantity} pc(s)</span>
+                    <span className="amount">{item.QUANTITY} pc(s)</span>
                 </div>
             ))}
         </div>
