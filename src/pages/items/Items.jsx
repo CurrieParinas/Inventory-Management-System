@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './items.scss'
 import DataTable from '../../components/datatable/dataTable'
 import {itemRows} from '../../sidebar'
@@ -7,16 +7,36 @@ import AddItem from '../../components/addItem/additem'
 
 const Items = () => {
     const [open,setOpen] = useState(false)
+
+    const[trackedItems, setTrackedItems]=useState([])
+
+    const fetchTrackedItems = async () => {
+        try {
+          const response = await fetch('http://localhost:8080/inventory/itemMedium/allTracked');
+          if (!response.ok) {
+            throw new Error('Failed to fetch tracked items');
+          }
+          const data = await response.json();
+          setTrackedItems(data);
+        } catch (error) {
+          console.error('Error fetching tracked items:', error);
+        }
+      };
+
+    useEffect(() => {
+        fetchTrackedItems();
+    }, []);
+
     const columns = [
         { 
-          field: 'id', 
+          field: 'ITEM_MEDIUM_ID', 
           headerName: 'ID', 
           width: 90,
           headerAlign: 'center',
           align: 'center',
         },
         {
-          field: 'name',
+          field: 'NAME',
           headerName: 'Name',
           width: 150,
           editable: true,
@@ -24,7 +44,7 @@ const Items = () => {
           align: 'center',
         },
         {
-          field: 'codename',
+          field: 'CODENAME',
           headerName: 'Codename',
           width: 120,
           editable: true,
@@ -32,7 +52,7 @@ const Items = () => {
           align: 'center',
         },
         {
-          field: 'brand',
+          field: 'BRAND',
           headerName: 'Brand',
           width: 150,
           editable: true,
@@ -40,7 +60,7 @@ const Items = () => {
           align: 'center',
         },
         {
-          field: 'quantity',
+          field: 'QUANTITY',
           headerName: 'Quantity*',
           type: 'number',
           width: 130,
@@ -49,21 +69,21 @@ const Items = () => {
           align: 'center',
         },
         {
-          field: 'storageMedium',
+          field: 'MEDIUM_NAME',
           headerName: 'Storage Medium',
           width: 180,
           headerAlign: 'center',
           align: 'center',
         },
         {
-          field: 'storageLocation',
+          field: 'LOCATION_NAME',
           headerName: 'Storage Location',
           width: 200,
           headerAlign: 'center',
           align: 'center',
         },
         {
-          field: 'dateCreated',
+          field: 'CREATE_DATE',
           headerName: 'Date Created',
           type: 'Date',
           width: 170,
@@ -71,7 +91,7 @@ const Items = () => {
           align: 'center',
         },
         {
-          field: 'dateModified',
+          field: 'LAST_MODIFIED',
           headerName: 'Date Modified',
           type: 'Date',
           width: 170,
@@ -90,7 +110,7 @@ const Items = () => {
                 <button onClick={() => setOpen(true)}>Add New Tracked Item</button>
             </div>
         </div>
-        <DataTable slug="trackeditems" columns={columns} rows={itemRows}/>
+        <DataTable slug="trackeditems" columns={columns} rows={trackedItems.map(row => ({ ...row, id: row.ITEM_MEDIUM_ID }))}/>
         {open && <AddItem slug="trackeditems" columns={columns} setOpen={setOpen}/>}
     </div>
   )
