@@ -18,6 +18,7 @@ import Barcode from './pages/barcode/Barcode';
 import Qrcode from './pages/qrcode/Qrcode';
 import Untrack from './pages/untrack/Untrack';
 
+
 function App() {
     const Layout = ()=> {
         return (
@@ -57,24 +58,28 @@ function App() {
                     element: <Untrack/>,
                 },
                 {
-                    path: "item",
+                    path: "trackeditems/:id",
                     element: <Item/>,
+                },
+                {
+                    path: "untrackeditems/:id",
+                    element: <Item/>,
+                },
+                {
+                    path: "barcodes/barcode/:id",
+                    element: <Barcode/>,
+                },
+                {
+                    path: "qrcodes/qrcode/:id",
+                    element: <Qrcode/>,
                 },
                 {
                     path: "barcodes",
                     element: <Barcodes/>,
                 },
                 {
-                    path: "barcode",
-                    element: <Barcode/>,
-                },
-                {
                     path: "qrcodes",
                     element: <Qrcodes/>,
-                },
-                {
-                    path: "qrcode",
-                    element: <Qrcode/>,
                 },
             ]
         },

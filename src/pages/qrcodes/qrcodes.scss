@@ -1,0 +1,11 @@
+.qrcode {
+    min-height: 95vh;
+    width: 100%;
+    .qrcodecontainer {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 2vw;
+    }
+}

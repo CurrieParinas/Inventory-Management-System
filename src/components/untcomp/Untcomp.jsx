@@ -1,37 +1,36 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from "react-router-dom"
-import "./topbox.scss"
-import { trackedItems } from '../../sidebar'
-import box from "../../assets/box.svg"
+import "./unt.scss";
+import openbox from "../../assets/open-box.svg"
 
-const TopBox = () => {
-    const[trackedItems, setTrackedItems]=useState([])
+const Unt = () => {
+    const[untrackedItems, setUntrackedItems]=useState([])
 
-    const fetchTrackedItems = async () => {
+    const fetchUntrackedItems = async () => {
         try {
-          const response = await fetch('http://localhost:8080/inventory/itemMedium/fiveLastModifiedTracked');
+          const response = await fetch('http://localhost:8080/inventory/itemMedium/fiveLastModifiedUntracked');
           if (!response.ok) {
-            throw new Error('Failed to fetch tracked items');
+            throw new Error('Failed to fetch untracked items');
           }
           const data = await response.json();
-          setTrackedItems(data);
+          setUntrackedItems(data);
         } catch (error) {
-          console.error('Error fetching tracked items:', error);
+          console.error('Error fetching untracked items:', error);
         }
       };
 
     useEffect(() => {
-        fetchTrackedItems();
+        fetchUntrackedItems();
     }, []);
 
   return (
-    <div className='topbox' >
+    <div className='unt' >
         <div className="somediv">
-            <img src={box} alt="" style={{'width': '45px', 'height': '45px'}} />
-            <h1>Tracked Items</h1>
+            <img src={openbox} alt="" style={{'width': '45px', 'height': '45px'}} />
+            <h1>Untracked Items</h1>
         </div>
         <div className="list">
-            {trackedItems.map(item=>(
+            {untrackedItems.map(item=>(
                 <div className="listItem" key={item.ITEM_MEDIUM_ID}>
                     <div className="trackedItemInfo">
                         <div className="itemNumber" style={{minWidth: '16.5px'}}>{item.ITEM_MEDIUM_ID}</div>
@@ -43,7 +42,6 @@ const TopBox = () => {
                             </div>
                         </div>
                     </div>
-                    <span className="amount">{item.QUANTITY} pc(s)</span>
                 </div>
             ))}
         </div>
@@ -60,4 +58,4 @@ const TopBox = () => {
   )
 }
 
-export default TopBox
+export default Unt

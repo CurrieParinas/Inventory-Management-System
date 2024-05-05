@@ -1,7 +1,7 @@
 import React from 'react'
 import './home.scss'
 import TopBox from '../../components/topbox/TopBox'
-import Unt from '../../components/unt/unt'
+import Unt from '../../components/untcomp/Untcomp'
 import Location from '../../components/location/Location'
 import Medium from '../../components/medium/Medium'
 import RecentTitle from '../../components/recenttitle/RecentTitle'

@@ -1,0 +1,11 @@
+.barcode {
+    min-height: 95vh;
+    width: 100%;
+    .barcodecontainer {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 2vw;
+    }
+}
