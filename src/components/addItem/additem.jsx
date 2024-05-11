@@ -2,22 +2,20 @@ import React from 'react'
 import "./additem.scss"
 
 const additem = (props) => {
-    const handleSubmit =(e)=> {
-        e.preventDefault();
-
-        //add item
-    }
-  return (
+    return (
     <div className='additem'>
         <div className="modal">
             <span className="close" onClick={()=>props.setOpen(false)}>x</span>
             <h1>Add New {props.slug}</h1>
-            <form onSubmit={handleSubmit}>
-                {props.columns.filter(item=>item.field !== "id" && item.field !=="img")
+            <form onSubmit={props.handleSubmit}>
+                {props.columns.filter(item=>item.headerName !== "ID" && item.field !=="CREATE_DATE" && item.field !=="LAST_MODIFIED")
                 .map(column=>(
                     <div className="item">
-                        <label htmlFor="">{column.headerName}</label>
-                        <input type={column.type} placeholder={column.field}/>
+                        {column.field !== 'IMAGE' ? (
+                            <input type="text" name={column.field} value={props.formData[column.field]} onChange={props.handleChange} placeholder={column.headerName} />
+                            ) : (
+                            props.formData.IMAGE !== null && <input type="file" name={column.field} onChange={props.handleImageChange} />
+                        )}
                     </div>
                 ))}
                 <div className="buttonDiv">
