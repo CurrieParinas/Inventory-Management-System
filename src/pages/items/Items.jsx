@@ -114,11 +114,11 @@ const Items = () => {
         <div className="info">
             <img src={Box} alt="" style={{width:'40px', height:'40px'}}/>
             <h1 style={{marginLeft:"-10px"}}>Tracked Items</h1>
-            <div className="buttonDiv">
-                <button onClick={() => setOpen(true)}>Add New Tracked Item</button>
+            <div className="buttonDiv" onClick={() => setOpen(true)}>
+                <button >Add New Tracked Item</button>
             </div>
         </div>
-        <DataTable slug="trackeditems" columns={columns} rows={trackedItems.map(row => ({ ...row, id: row.ITEM_MEDIUM_ID }))}/>
+        <DataTable slug="trackeditems" columns={columns.filter(column => column.field !== 'IMAGE')} rows={trackedItems.map(row => ({ ...row, id: row.ITEM_MEDIUM_ID }))}/>
         {open && <AddItem slug="trackeditems" columns={columns} setOpen={setOpen}/>}
     </div>
   )
