@@ -35,14 +35,14 @@ const Items = () => {
           headerAlign: 'center',
           align: 'center',
         },
-        {
-          field: 'NAME',
-          headerName: 'Name',
-          width: 150,
-          editable: true,
-          headerAlign: 'center',
-          align: 'center',
-        },
+        // {
+        //   field: 'NAME',
+        //   headerName: 'Name',
+        //   width: 150,
+        //   editable: true,
+        //   headerAlign: 'center',
+        //   align: 'center',
+        // },
         {
           field: 'CODENAME',
           headerName: 'Codename',
