@@ -1,32 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import "./untrack.scss"
-import openedBox from "../../assets/open-box.svg"
+import './archive.scss'
 import DataTable from '../../components/datatable/dataTable'
-import AddItem from '../../components/addItem/additem'
-import { itemRowsUntracked } from '../../sidebar'
+import Box from "../../assets/box.svg"
 
-const Untrack = () => {
-    const [open,setOpen] = useState(false)
 
-    const[untrackedItems, setUntrackedItems]=useState([])
-
-    const fetchUntrackedItems = async () => {
-        try {
-          const response = await fetch('http://localhost:8080/inventory/itemMedium/allUntracked');
-          if (!response.ok) {
-            throw new Error('Failed to fetch untracked items');
-          }
-          const data = await response.json();
-          setUntrackedItems(data);
-        } catch (error) {
-          console.error('Error fetching untracked items:', error);
-        }
-      };
-
-    useEffect(() => {
-        fetchUntrackedItems();
-    }, []);
-
+const Archive = () => {
     const columns = [
         { 
           field: 'ITEM_MEDIUM_ID', 
@@ -55,6 +33,15 @@ const Untrack = () => {
           field: 'BRAND',
           headerName: 'Brand',
           width: 150,
+          editable: true,
+          headerAlign: 'center',
+          align: 'center',
+        },
+        {
+          field: 'QUANTITY',
+          headerName: 'Quantity*',
+          type: 'number',
+          width: 130,
           editable: true,
           headerAlign: 'center',
           align: 'center',
@@ -98,19 +85,16 @@ const Untrack = () => {
             align: 'center',
         },
     ];
-    return (
-    <div className='untrackedItems'>
+
+  return (
+    <div className='archivedItems'>
         <div className="info">
-            <img src={openedBox} alt="" style={{width:'40px', height:'40px'}}/>
-            <h1 style={{marginLeft:"-10px"}}>Untracked Items</h1>
-            <div className="buttonDiv" onClick={() => setOpen(true)}>
-                <button>Add New Untracked Item</button>
-            </div>
+            <img src={Box} alt="" style={{width:'40px', height:'40px'}}/>
+            <h1 style={{marginLeft:"-10px"}}>Archived Items</h1>
         </div>
-        <DataTable slug="untrackedItems" columns={columns.filter(column => column.field !== 'IMAGE')} rows={untrackedItems.map(row => ({ ...row, id: row.ITEM_MEDIUM_ID }))}/>
-        {open && <AddItem slug="untrackeditems" columns={columns} setOpen={setOpen}/>}
+        <DataTable slug="archiveditems" columns={columns.filter(column => column.field !== 'IMAGE')} rows={trackedItems.map(row => ({ ...row, id: row.ITEM_MEDIUM_ID }))}/>
     </div>
   )
 }
 
-export default Untrack
+export default Archive

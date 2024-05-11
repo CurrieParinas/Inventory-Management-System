@@ -17,6 +17,10 @@ import Qrcodes from './pages/qrcodes/qrcodes';
 import Barcode from './pages/barcode/Barcode';
 import Qrcode from './pages/qrcode/Qrcode';
 import Untrack from './pages/untrack/Untrack';
+import GeneralItems from './pages/generalItems/GeneralItems';
+import Location from './pages/location/Location';
+import Medium from './pages/medium/Medium';
+import Archive from './pages/archive/Archive';
 
 
 function App() {
@@ -80,6 +84,38 @@ function App() {
                 {
                     path: "qrcodes",
                     element: <Qrcodes/>,
+                },
+                {
+                    path: "general-items",
+                    element: <GeneralItems/>,
+                },
+                {
+                    path: "general-items/general-item/:id",
+                    element: <Item/>,
+                },
+                {
+                    path: "location",
+                    element: <Location/>,
+                },
+                {
+                    path: "medium",
+                    element: <Medium/>,
+                },
+                {
+                    path: "location/:id",
+                    element: <Item/>,
+                },
+                {
+                    path: "medium/:id",
+                    element: <Item/>,
+                },
+                {
+                    path: "archiveditems",
+                    element: <Archive/>,
+                },
+                {
+                    path: "archiveditems/:id",
+                    element: <Item/>,
                 },
             ]
         },

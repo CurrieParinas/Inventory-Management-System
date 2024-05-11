@@ -4,6 +4,7 @@ import { DataGrid, GridToolbar } from '@mui/x-data-grid'
 import { Link } from 'react-router-dom'
 import EditIcon from "../../assets/view.svg"
 import deleteIcon from "../../assets/delete.svg"
+import archiveIcon from "../../assets/archive.svg"
 
 const dataTable = (props) => {
   const handleDelete = (id) => {
@@ -17,12 +18,17 @@ const dataTable = (props) => {
     width:180,
     renderCell:(params) => {
         return (
-            <div className="action" style={{display:"flex", justifyContent:"center", gap:"5px"}}>
+            <div className="action" style={{ display: "flex", justifyContent: "center", gap: "5px" }}>
                 <Link to={`/${props.slug}/${params.row.id}`}>
-                    <img src={EditIcon} style={{width:"25px", height:"25px", marginTop:"15px"}}/>
+                    <img src={EditIcon} style={{ width: "25px", height: "25px", marginTop: "15px" }} />
                 </Link>
-                <Link className="delete" onClick={()=>handleDelete(params.row.id)}>
-                    <img src={deleteIcon} style={{width:"25px", height:"25px", marginTop:"15px"}}/>
+                {props.slug === "archiveditems" ? (
+                    <Link to={`/${props.slug}/another-action/${params.row.id}`}>
+                        <img src={archiveIcon} style={{ width: "25px", height: "25px", marginTop: "15px" }} />
+                    </Link>
+                ) : null}
+                <Link className="delete" onClick={() => handleDelete(params.row.id)}>
+                    <img src={deleteIcon} style={{ width: "25px", height: "25px", marginTop: "15px" }} />
                 </Link>
             </div>
         )

@@ -3,6 +3,13 @@ import item from "../src/assets/box.svg"
 import openbox from "../src/assets/open-box.svg"
 import barcode from "../src/assets/barcode.svg"
 import qrcode from "../src/assets/qr-code.svg"
+import generalitem from "../src/assets/generalitem.svg"
+import location from "../src/assets/location.svg"
+import medium from "../src/assets/shelf.svg"
+import archive from "../src/assets/archive.svg"
+
+
+
 
 export const menu = [
     {
@@ -22,29 +29,53 @@ export const menu = [
       title: "Lists",
       listItems: [
         {
-          id: 1,
+            id: 1,
+            title: "General Items",
+            url: "/general-items",
+            icon: generalitem,
+        },
+        {
+            id: 2,
+            title: "Location",
+            url: "/location",
+            icon: location,
+        },
+        {
+            id: 3,
+            title: "Medium",
+            url: "/medium",
+            icon: medium,
+        },
+        {
+          id: 4,
           title: "Tracked Items",
           url: "/items",
           icon: item,
         },
         {
-            id: 2,
+            id: 5,
             title: "Untracked Item",
             url: "/untrack",
             icon: openbox,
         },
         {
-          id: 3,
+          id: 6,
           title: "Barcodes",
           url: "/barcodes",
           icon: barcode,
         },
         {
-            id: 4,
+            id: 7,
             title: "QR codes",
             url: "/qrcodes",
             icon: qrcode,
-          },
+        },
+        {
+            id: 8,
+            title: "Archived",
+            url: "/archive",
+            icon: archive,
+        },
       ],
     },
   ];

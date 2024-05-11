@@ -3,16 +3,18 @@
         width: 250px;
         height: auto;
         display: flex;
+        justify-content: center;
+        align-items: center;
         flex-direction: column;
         gap: 10px;
         margin-bottom: 50px;
-        background-color: #f9f9f9;
+        background-color: #fff;
         border-radius: 12px;
         overflow: hidden;   
         transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 
-        .image {
-            width: 100%;
+        .image {    
+            width: 200px;
             height: 200px;
             img {
                 border-radius: 12px 12px 0 0;
@@ -23,11 +25,10 @@
         }
 
         .card-words {
-            padding: 20px;
-
-            .card-name, .card-desc, .card-assigned {
-                margin: 10px 0;
-            }
+            padding: 0 20px 20px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
 
             h2, h3 {
                 color: #333;

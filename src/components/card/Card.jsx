@@ -21,11 +21,7 @@ const Card = ({ item, type, fetchCodeImage, className }) => {
             </div>
             <div className="card-words">
                 <h2 className="card-name">{item.NAME}</h2>
-                <h3 className="card-desc">{item.DESCRIPTION}</h3>
-                {/* <h4 className="card-assigned">{item.assigned}</h4>  
-                <div className="extra-details">
-                    <h4>{item.note}</h4>
-                </div> */}
+                <h4 className="card-desc">{item.DESCRIPTION}</h4>
             </div>
         </div>
     </Link>
