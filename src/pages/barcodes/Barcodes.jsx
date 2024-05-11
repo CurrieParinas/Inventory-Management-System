@@ -40,7 +40,7 @@ const Barcodes = () => {
     <div className='barcode'>
       <div className="barcodecontainer">
         {items.map((item) => (
-            <Card key={item.ITEM_ID} item={item} type="barcode" fetchCodeImage={fetchBarcode} className="barcodes"/>
+            <Card key={item.ITEM_ID} itemId={item.ITEM_ID} item={item} type="barcode" fetchCodeImage={fetchBarcode} className="barcodes"/>
         ))}
       </div>
     </div>

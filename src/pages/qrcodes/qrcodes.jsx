@@ -41,7 +41,7 @@ function Qrcodes() {
         <div className="qrcodecontainer">
         {items.map((item) => (
             { ...items, id: item.ITEM_ID },
-            <Card key={item.ITEM_ID} item={item} type="qrcode" fetchCodeImage={fetchQRCode} className="qrcodes"/>
+            <Card key={item.ITEM_ID} itemId={item.ITEM_ID} item={item} type="qrcode" fetchCodeImage={fetchQRCode} className="qrcodes"/>
         ))}
         </div>
     </div>
