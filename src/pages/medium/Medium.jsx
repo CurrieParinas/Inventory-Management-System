@@ -1,12 +1,20 @@
 import React, { useEffect, useState } from 'react'
 import './medium.scss'
 import Card from '../../components/card/Card'
+import AddItem from '../../components/addItem/additem'
 import icon from "../../assets/shelf.svg"
 
 
 const Medium = () => {
   const[mediums, setMediums]=useState([])
   const [open,setOpen] = useState(false)
+  const [formData, setFormData] = useState({
+    NAME: '',
+    DESCRIPTION: '',
+    PARENT_LOCATION: '',
+    PARENT_MEDIUM_ID: '',
+    IMAGE: ''
+  });
 
     const fetchMediums = async () => {
         try {
@@ -35,6 +43,58 @@ const Medium = () => {
         return URL.createObjectURL(imageData);
       } catch (error) {
         console.error('Error fetching image:', error);
+      }
+    };
+
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+    
+      const formDataWithImage = new FormData();
+      Object.entries(formData).forEach(([key, value]) => {
+        formDataWithImage.append(key, value);
+      });
+
+      console.log(formData);
+    
+      try {
+        const response = await fetch(`http://localhost:8080/inventory/medium/add`, {
+          method: 'POST',
+          body: formDataWithImage,
+        });
+    
+        if (!response.ok) {
+          throw new Error('Failed to add medium');
+        }
+    
+        // Reload the mediums after adding a new medium
+        fetchMediums();
+    
+        setOpen(false); // Close the AddItem modal after successful submission
+        setFormData({ // Clear the form data
+          NAME: '',
+          DESCRIPTION: '',
+          PARENT_LOCATION: '',
+          PARENT_MEDIUM_ID: '',
+          IMAGE: ''
+        });
+      } catch (error) {
+        console.error('Error adding medium:', error);
+      }
+    };
+
+    const handleChange = (e) => {
+      console.log(e.target.value);
+      setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
+
+    const handleImageChange = (e) => {
+      const selectedFile = e.target.files[0];
+      if (selectedFile && selectedFile.size <= (1 * 1024 * 1024)) { // Max size is 1MB
+        setFormData({ ...formData, IMAGE: e.target.files[0] });
+      } else {
+        alert('File size exceeds the maximum allowed limit (1MB).');
+        // Optionally, you can clear the file input field
+        e.target.value = null;
       }
     };
 
@@ -134,6 +194,7 @@ const Medium = () => {
         {mediums.map((item) => (
             <Card key={item.MEDIUM_ID} item={item} type="medium" fetchCodeImage={fetchMediums} className="mediums"/>
         ))}
+        {open && <AddItem slug="trackeditems" columns={columns} setOpen={setOpen} formData={formData} handleChange={handleChange} handleSubmit={handleSubmit} handleImageChange={handleImageChange}/>}
       </div>
     </div>
   )

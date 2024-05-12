@@ -8,6 +8,12 @@ import icon from "../../assets/location.svg"
 const Location = () => {
   const[locations, setLocations]=useState([])
   const [open,setOpen] = useState(false)
+  const [formData, setFormData] = useState({
+    NAME: '',
+    DESCRIPTION: '',
+    PARENT_LOCATION: '',
+    IMAGE: ''
+  });
 
     const fetchLocations = async () => {
         try {
@@ -36,6 +42,57 @@ const Location = () => {
         return URL.createObjectURL(imageData);
       } catch (error) {
         console.error('Error fetching image:', error);
+      }
+    };
+
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+    
+      const formDataWithImage = new FormData();
+      Object.entries(formData).forEach(([key, value]) => {
+        formDataWithImage.append(key, value);
+      });
+
+      console.log(formData);
+    
+      try {
+        const response = await fetch(`http://localhost:8080/inventory/location/add`, {
+          method: 'POST',
+          body: formDataWithImage,
+        });
+    
+        if (!response.ok) {
+          throw new Error('Failed to add location');
+        }
+    
+        // Reload the locations after adding a new location
+        fetchLocations();
+    
+        setOpen(false); // Close the AddItem modal after successful submission
+        setFormData({ // Clear the form data
+          NAME: '',
+          DESCRIPTION: '',
+          PARENT_LOCATION: '',
+          IMAGE: ''
+        });
+      } catch (error) {
+        console.error('Error adding location:', error);
+      }
+    };
+
+    const handleChange = (e) => {
+      console.log(e.target.value);
+      setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
+
+    const handleImageChange = (e) => {
+      const selectedFile = e.target.files[0];
+      if (selectedFile && selectedFile.size <= (1 * 1024 * 1024)) { // Max size is 1MB
+        setFormData({ ...formData, IMAGE: e.target.files[0] });
+      } else {
+        alert('File size exceeds the maximum allowed limit (1MB).');
+        // Optionally, you can clear the file input field
+        e.target.value = null;
       }
     };
 
@@ -135,7 +192,7 @@ const Location = () => {
         {locations.map((item) => (
             <Card key={item.LOCATION_ID} item={item} type="location" fetchCodeImage={fetchLocations} className="locations"/>
         ))}
-        {open && <AddItem slug="trackeditems" columns={columns} setOpen={setOpen}/>}
+        {open && <AddItem slug="trackeditems" columns={columns} setOpen={setOpen} formData={formData} handleChange={handleChange} handleSubmit={handleSubmit} handleImageChange={handleImageChange}/>}
       </div>
     </div>
   )

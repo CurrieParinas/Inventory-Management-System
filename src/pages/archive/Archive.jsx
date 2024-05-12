@@ -5,6 +5,25 @@ import Box from "../../assets/box.svg"
 
 
 const Archive = () => {
+  const[archivedItems, setArchivedItems]=useState([])
+
+    const fetchArchivedItems = async () => {
+        try {
+          const response = await fetch('http://localhost:8080/inventory/itemMedium/allArchived');
+          if (!response.ok) {
+            throw new Error('Failed to fetch archived items');
+          }
+          const data = await response.json();
+          setArchivedItems(data);
+        } catch (error) {
+          console.error('Error fetching archived items:', error);
+        }
+      };
+
+    useEffect(() => {
+        fetchArchivedItems();
+    }, []);
+    
     const columns = [
         { 
           field: 'ITEM_MEDIUM_ID', 
@@ -88,11 +107,11 @@ const Archive = () => {
 
   return (
     <div className='archivedItems'>
-        {/* <div className="info">
+        <div className="info">
             <img src={Box} alt="" style={{width:'40px', height:'40px'}}/>
             <h1 style={{marginLeft:"-10px"}}>Archived Items</h1>
         </div>
-        <DataTable slug="archiveditems" columns={columns.filter(column => column.field !== 'IMAGE')} rows={trackedItems.map(row => ({ ...row, id: row.ITEM_MEDIUM_ID }))}/> */}
+        <DataTable slug="archiveditems" columns={columns.filter(column => column.field !== 'IMAGE')} rows={archivedItems.map(row => ({ ...row, id: row.ITEM_MEDIUM_ID }))}/>
     </div>
   )
 }

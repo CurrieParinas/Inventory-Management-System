@@ -110,11 +110,11 @@ function App() {
                     element: <Item/>,
                 },
                 {
-                    path: "archiveditems",
+                    path: "archive",
                     element: <Archive/>,
                 },
                 {
-                    path: "archiveditems/:id",
+                    path: "archive/:id",
                     element: <Item/>,
                 },
             ]
