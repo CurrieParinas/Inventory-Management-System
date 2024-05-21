@@ -89,10 +89,10 @@ const GeneralItems = () => {
 
     const handleImageChange = (e) => {
       const selectedFile = e.target.files[0];
-      if (selectedFile && selectedFile.size <= (1 * 1024 * 1024)) { // Max size is 1MB
+      if (selectedFile && selectedFile.size <= (2 * 1024 * 1024)) { // Max size is 2MB
         setFormData({ ...formData, IMAGE: e.target.files[0] });
       } else {
-        alert('File size exceeds the maximum allowed limit (1MB).');
+        alert('File size exceeds the maximum allowed limit (2MB).');
         // Optionally, you can clear the file input field
         e.target.value = null;
       }
