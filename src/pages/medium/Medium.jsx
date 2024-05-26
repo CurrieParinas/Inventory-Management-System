@@ -69,6 +69,7 @@ const Medium = () => {
         // Reload the mediums after adding a new medium
         fetchMediums();
     
+        handleClose();
         setOpen(false); // Close the AddItem modal after successful submission
         setFormData({ // Clear the form data
           NAME: '',
@@ -98,6 +99,21 @@ const Medium = () => {
       }
     };
 
+    const resetFormData = () => {
+        setFormData({
+            NAME: '',
+            DESCRIPTION: '',
+            PARENT_LOCATION: '',
+            PARENT_MEDIUM_ID: '',
+            IMAGE: ''
+        });
+      };
+
+    const handleClose = () => {
+        setOpen(false);
+        resetFormData();
+      }; 
+
     const columns = [
         { 
           field: 'ITEM_MEDIUM_ID', 
@@ -105,6 +121,7 @@ const Medium = () => {
           width: 90,
           headerAlign: 'center',
           align: 'center',
+          placeholder: 'Enter ID',
         },
         {
           field: 'NAME',
@@ -113,45 +130,34 @@ const Medium = () => {
           editable: true,
           headerAlign: 'center',
           align: 'center',
+          placeholder: 'Enter name',
         },
         {
-          field: 'CODENAME',
-          headerName: 'Codename',
-          width: 120,
-          editable: true,
-          headerAlign: 'center',
-          align: 'center',
+            field: 'DESCRIPTION',
+            headerName: 'Description',
+            width: 150,
+            editable: true,
+            headerAlign: 'center',
+            align: 'center',
+            placeholder: 'Enter description',
         },
         {
-          field: 'BRAND',
-          headerName: 'Brand',
-          width: 150,
-          editable: true,
-          headerAlign: 'center',
-          align: 'center',
+            field: 'PARENT_STORAGE_MEDIUM',
+            headerName: 'Parent Storage Medium',
+            width: 150,
+            editable: true,
+            headerAlign: 'center',
+            align: 'center',
+            placeholder: 'Enter medium',
         },
         {
-          field: 'QUANTITY',
-          headerName: 'Quantity*',
-          type: 'number',
-          width: 130,
-          editable: true,
-          headerAlign: 'center',
-          align: 'center',
-        },
-        {
-          field: 'MEDIUM_NAME',
-          headerName: 'Storage Medium',
-          width: 180,
-          headerAlign: 'center',
-          align: 'center',
-        },
-        {
-          field: 'LOCATION_NAME',
-          headerName: 'Storage Location',
-          width: 200,
-          headerAlign: 'center',
-          align: 'center',
+            field: 'LOCATION',
+            headerName: 'Location',
+            width: 150,
+            editable: true,
+            headerAlign: 'center',
+            align: 'center',
+            placeholder: 'Enter storage location',
         },
         {
           field: 'CREATE_DATE',
@@ -160,6 +166,7 @@ const Medium = () => {
           width: 170,
           headerAlign: 'center',
           align: 'center',
+          placeholder: 'Select date created',
         },
         {
           field: 'LAST_MODIFIED',
@@ -168,16 +175,18 @@ const Medium = () => {
           width: 170,
           headerAlign: 'center',
           align: 'center',
+          placeholder: 'Select date modified',
         },
         {
-            field: 'IMAGE',
-            headerName: 'Image',
-            type: 'file',
-            width: 170,
-            headerAlign: 'center',
-            align: 'center',
+          field: 'IMAGE',
+          headerName: 'Image',
+          type: 'file',
+          width: 170,
+          headerAlign: 'center',
+          align: 'center',
+          placeholder: 'Upload image',
         },
-    ];
+      ];
 
   return (
     <div className='medium'>
@@ -192,9 +201,23 @@ const Medium = () => {
         </div>
       <div className="mediumcontainer">
         {mediums.map((item) => (
-            <Card key={item.MEDIUM_ID} item={item} type="medium" fetchCodeImage={fetchMediums} className="mediums"/>
+            <Card 
+                key={item.MEDIUM_ID} 
+                itemId={item.MEDIUM_ID}
+                item={item}
+                type="medium" 
+                fetchCodeImage={fetchMediums} 
+                className="mediums"/>
         ))}
-        {open && <AddItem slug="trackeditems" columns={columns} setOpen={setOpen} formData={formData} handleChange={handleChange} handleSubmit={handleSubmit} handleImageChange={handleImageChange}/>}
+        {open && <AddItem 
+            slug="Medium" 
+            columns={columns} 
+            setOpen={setOpen} 
+            formData={formData} 
+            handleChange={handleChange} 
+            handleSubmit={handleSubmit} 
+            handleImageChange={handleImageChange}
+            resetFormData={resetFormData} />}
       </div>
     </div>
   )

@@ -1,4 +1,22 @@
 .datatable {
+    .action {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 5px;
+        margin-top: 13px;
+
+        button {
+            background: none;
+            border: none;
+            cursor: pointer; /* Add cursor pointer on hover */
+            transition: transform 0.3s ease; /* Add transition effect */
+            
+            &:hover {
+                transform: scale(1.1); /* Increase size on hover */
+            }
+        }
+    }
     .dataGrid {
         background: #edf9ff;
         padding: 16px;
@@ -11,7 +29,9 @@
                     --DataGrid-containerBackground: #edf9ff;
                 }
             }
+            .MuiDataGrid-scrollbar{
+                height: 8px;
+            }
         }
     }
-    
 }

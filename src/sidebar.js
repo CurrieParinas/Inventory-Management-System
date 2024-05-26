@@ -6,7 +6,7 @@ import qrcode from "../src/assets/qr-code.svg"
 import generalitem from "../src/assets/generalitem.svg"
 import location from "../src/assets/location.svg"
 import medium from "../src/assets/shelf.svg"
-import archive from "../src/assets/archive.svg"
+import archive from "../src/assets/archiveMenu.svg"
 
 
 
@@ -37,13 +37,13 @@ export const menu = [
         {
             id: 2,
             title: "Location",
-            url: "/location",
+            url: "/locations",
             icon: location,
         },
         {
             id: 3,
             title: "Medium",
-            url: "/medium",
+            url: "/mediums",
             icon: medium,
         },
         {

@@ -6,7 +6,15 @@ import AddItem from '../../components/addItem/additem'
 import { itemRowsUntracked } from '../../sidebar'
 
 const Untrack = () => {
-    const [open,setOpen] = useState(false)
+    const [open, setOpen] = useState(false);
+    const [formData, setFormData] = useState({
+        NAME: '',
+        DESCRIPTION: '',
+        BRAND: '', // Added BRAND field
+        PARENT_LOCATION: '',
+        PARENT_MEDIUM_ID: '',
+        IMAGE: ''
+    });
 
     const[untrackedItems, setUntrackedItems]=useState([])
 
@@ -27,13 +35,46 @@ const Untrack = () => {
         fetchUntrackedItems();
     }, []);
 
+    const resetFormData = () => {
+        setFormData({
+          NAME: '',
+          DESCRIPTION: '',
+          BRAND: '',
+          CODENAME: '',
+          IMAGE: '',
+        });
+      };
+    
+      const handleClose = () => {
+        setOpen(false);
+        resetFormData();
+      };
+
+    const handleChange = (e) => {
+        console.log(e.target.value);
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
+
+    const handleImageChange = (e) => {
+        const selectedFile = e.target.files[0];
+        if (selectedFile && selectedFile.size <= (1 * 1024 * 1024)) { // Max size is 1MB
+            setFormData({ ...formData, IMAGE: e.target.files[0] });
+        } else {
+            alert('File size exceeds the maximum allowed limit (1MB).');
+            // Optionally, you can clear the file input field
+            e.target.value = null;
+        }
+    };
+
+
     const columns = [
         { 
-          field: 'ITEM_MEDIUM_ID', 
+          field: 'TRACKED', 
           headerName: 'ID', 
           width: 90,
           headerAlign: 'center',
           align: 'center',
+          placeholder: 'Enter ID'
         },
         {
           field: 'NAME',
@@ -42,6 +83,7 @@ const Untrack = () => {
           editable: true,
           headerAlign: 'center',
           align: 'center',
+          placeholder: 'Enter name'
         },
         {
           field: 'CODENAME',
@@ -50,6 +92,16 @@ const Untrack = () => {
           editable: true,
           headerAlign: 'center',
           align: 'center',
+          placeholder: 'Enter codename'
+        },
+        {
+            field: 'DESCRIPTION',
+            headerName: 'Description',
+            width: 150,
+            editable: true,
+            headerAlign: 'center',
+            align: 'center',
+            placeholder: 'Enter description',
         },
         {
           field: 'BRAND',
@@ -58,20 +110,7 @@ const Untrack = () => {
           editable: true,
           headerAlign: 'center',
           align: 'center',
-        },
-        {
-          field: 'MEDIUM_NAME',
-          headerName: 'Storage Medium',
-          width: 180,
-          headerAlign: 'center',
-          align: 'center',
-        },
-        {
-          field: 'LOCATION_NAME',
-          headerName: 'Storage Location',
-          width: 200,
-          headerAlign: 'center',
-          align: 'center',
+          placeholder: 'Enter brand'
         },
         {
           field: 'CREATE_DATE',
@@ -80,6 +119,7 @@ const Untrack = () => {
           width: 170,
           headerAlign: 'center',
           align: 'center',
+          placeholder: 'Enter Date Created'
         },
         {
           field: 'LAST_MODIFIED',
@@ -88,16 +128,18 @@ const Untrack = () => {
           width: 170,
           headerAlign: 'center',
           align: 'center',
+          placeholder: 'Enter Date Modified'
         },
         {
-            field: 'IMAGE',
-            headerName: 'Image',
-            type: 'file',
-            width: 170,
-            headerAlign: 'center',
-            align: 'center',
+          field: 'IMAGE',
+          headerName: 'Image',
+          type: 'file',
+          width: 170,
+          headerAlign: 'center',
+          align: 'center',
+          placeholder: 'Upload Image'
         },
-    ];
+      ];
     return (
     <div className='untrackedItems'>
         <div className="info">
@@ -107,8 +149,19 @@ const Untrack = () => {
                 <button>Add New Untracked Item</button>
             </div>
         </div>
-        <DataTable slug="untrackedItems" columns={columns.filter(column => column.field !== 'IMAGE')} rows={untrackedItems.map(row => ({ ...row, id: row.ITEM_MEDIUM_ID }))}/>
-        {open && <AddItem slug="untrackeditems" columns={columns} setOpen={setOpen}/>}
+        <DataTable 
+            slug="untrackedItems" 
+            columns={columns.filter(column => column.field !== 'IMAGE')} 
+            rows={untrackedItems.map(row => ({ ...row, id: row.ITEM_MEDIUM_ID }))}/>
+        {open && <AddItem 
+            slug="Untracked Items" 
+            columns={columns} 
+            setOpen={setOpen}
+            formData={formData} 
+            handleChange={handleChange} 
+            // handleSubmit={handleSubmit} 
+            handleImageChange={handleImageChange}
+            resetFormData={resetFormData}/>}
     </div>
   )
 }

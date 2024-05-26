@@ -67,7 +67,8 @@ const Location = () => {
     
         // Reload the locations after adding a new location
         fetchLocations();
-    
+        
+        handleClose();
         setOpen(false); // Close the AddItem modal after successful submission
         setFormData({ // Clear the form data
           NAME: '',
@@ -98,11 +99,12 @@ const Location = () => {
 
     const columns = [
         { 
-          field: 'ITEM_MEDIUM_ID', 
+          field: 'ITEM_LOCATION_ID', 
           headerName: 'ID', 
           width: 90,
           headerAlign: 'center',
           align: 'center',
+          placeholder: 'Enter ID',
         },
         {
           field: 'NAME',
@@ -111,45 +113,16 @@ const Location = () => {
           editable: true,
           headerAlign: 'center',
           align: 'center',
+          placeholder: 'Enter name',
         },
         {
-          field: 'CODENAME',
-          headerName: 'Codename',
-          width: 120,
-          editable: true,
-          headerAlign: 'center',
-          align: 'center',
-        },
-        {
-          field: 'BRAND',
-          headerName: 'Brand',
-          width: 150,
-          editable: true,
-          headerAlign: 'center',
-          align: 'center',
-        },
-        {
-          field: 'QUANTITY',
-          headerName: 'Quantity*',
-          type: 'number',
-          width: 130,
-          editable: true,
-          headerAlign: 'center',
-          align: 'center',
-        },
-        {
-          field: 'MEDIUM_NAME',
-          headerName: 'Storage Medium',
-          width: 180,
-          headerAlign: 'center',
-          align: 'center',
-        },
-        {
-          field: 'LOCATION_NAME',
-          headerName: 'Storage Location',
-          width: 200,
-          headerAlign: 'center',
-          align: 'center',
+            field: 'DESCRIPTION',
+            headerName: 'Description',
+            width: 150,
+            editable: true,
+            headerAlign: 'center',
+            align: 'center',
+            placeholder: 'Enter description',
         },
         {
           field: 'CREATE_DATE',
@@ -158,6 +131,7 @@ const Location = () => {
           width: 170,
           headerAlign: 'center',
           align: 'center',
+          placeholder: 'Select date created',
         },
         {
           field: 'LAST_MODIFIED',
@@ -166,16 +140,32 @@ const Location = () => {
           width: 170,
           headerAlign: 'center',
           align: 'center',
+          placeholder: 'Select date modified',
         },
         {
-            field: 'IMAGE',
-            headerName: 'Image',
-            type: 'file',
-            width: 170,
-            headerAlign: 'center',
-            align: 'center',
+          field: 'IMAGE',
+          headerName: 'Image',
+          type: 'file',
+          width: 170,
+          headerAlign: 'center',
+          align: 'center',
+          placeholder: 'Upload image',
         },
-    ];
+      ];
+      
+
+      const resetFormData = () => {
+        setFormData({
+          NAME: '',
+          DESCRIPTION: '',
+          IMAGE: ''
+        });
+      };
+
+    const handleClose = () => {
+        setOpen(false);
+        resetFormData();
+      }; 
 
   return (
     <div className='location'>
@@ -190,9 +180,23 @@ const Location = () => {
         </div>
       <div className="locationcontainer">
         {locations.map((item) => (
-            <Card key={item.LOCATION_ID} item={item} type="location" fetchCodeImage={fetchLocations} className="locations"/>
+            <Card 
+            key={item.LOCATION_ID}
+            itemId={item.LOCATION_ID}
+            item={item} 
+            type="location" 
+            fetchCodeImage={fetchLocations} 
+            className="locations" />
         ))}
-        {open && <AddItem slug="trackeditems" columns={columns} setOpen={setOpen} formData={formData} handleChange={handleChange} handleSubmit={handleSubmit} handleImageChange={handleImageChange}/>}
+        {open && <AddItem
+            slug="Location" 
+            columns={columns} 
+            setOpen={setOpen} 
+            formData={formData} 
+            handleChange={handleChange} 
+            handleSubmit={handleSubmit} 
+            handleImageChange={handleImageChange} 
+            resetFormData={resetFormData} />}
       </div>
     </div>
   )

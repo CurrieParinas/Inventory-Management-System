@@ -94,19 +94,19 @@ function App() {
                     element: <Item/>,
                 },
                 {
-                    path: "location",
+                    path: "locations",
                     element: <Location/>,
                 },
                 {
-                    path: "medium",
-                    element: <Medium/>,
-                },
-                {
-                    path: "location/:id",
+                    path: "locations/location/:id",
                     element: <Item/>,
                 },
                 {
-                    path: "medium/:id",
+                    path: "mediums",
+                    element: <Medium/>,
+                },
+                {
+                    path: "mediums/medium/:id",
                     element: <Item/>,
                 },
                 {
