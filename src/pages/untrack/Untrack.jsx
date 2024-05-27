@@ -152,7 +152,9 @@ const Untrack = () => {
         <DataTable 
             slug="untrackedItems" 
             columns={columns.filter(column => column.field !== 'IMAGE')} 
-            rows={untrackedItems.map(row => ({ ...row, id: row.ITEM_MEDIUM_ID }))}/>
+            rows={untrackedItems.map(row => ({ ...row, id: row.ITEM_MEDIUM_ID }))}
+            handleRefresh={fetchUntrackedItems}
+            />
         {open && <AddItem 
             slug="Untracked Items" 
             columns={columns} 

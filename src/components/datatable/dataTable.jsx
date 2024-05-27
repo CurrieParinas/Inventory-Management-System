@@ -14,9 +14,24 @@ const DataTable = (props) => {
     console.log(id + " deleted");
   };
 
-  const handleArchive = (id) => {
-    // handle archive
-    console.log(id + " archived");
+  const handleArchive = async (id) => {
+    try {
+      const response = await fetch(`http://localhost:8080/inventory/itemMedium/setArchived/${id}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const data = await response.json();
+      props.handleRefresh();
+    } catch (error) {
+      console.error('There was an error archiving the item!', error);
+    }
   };
 
   const handleNavigate = (id) => {

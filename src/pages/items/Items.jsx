@@ -223,13 +223,14 @@ const Items = () => {
                 slug="trackeditems" 
                 columns={columns.filter(column => column.field !== 'IMAGE')} 
                 rows={trackedItems.map(row => ({ ...row, id: row.ITEM_MEDIUM_ID }))} 
+                handleRefresh={fetchTrackedItems}
             />
             {open && <AddItem 
                 className="trackeditems" 
                 slug="Tracked Items" 
                 columns={columns} 
                 setOpen={setOpen} 
-                formData={formData} 
+                formData={formData}
                 handleChange={handleChange} 
                 handleSubmit={handleSubmit} 
                 handleImageChange={handleImageChange}
