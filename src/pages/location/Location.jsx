@@ -6,8 +6,8 @@ import icon from "../../assets/location.svg"
 
 
 const Location = () => {
-  const[locations, setLocations]=useState([])
-  const [open,setOpen] = useState(false)
+  const [locations, setLocations] = useState([])
+  const [open, setOpen] = useState(false)
   const [formData, setFormData] = useState({
     NAME: '',
     DESCRIPTION: '',
@@ -52,8 +52,6 @@ const Location = () => {
       Object.entries(formData).forEach(([key, value]) => {
         formDataWithImage.append(key, value);
       });
-
-      console.log(formData);
     
       try {
         const response = await fetch(`http://localhost:8080/inventory/location/add`, {
@@ -88,10 +86,10 @@ const Location = () => {
 
     const handleImageChange = (e) => {
       const selectedFile = e.target.files[0];
-      if (selectedFile && selectedFile.size <= (1 * 1024 * 1024)) { // Max size is 1MB
+      if (selectedFile && selectedFile.size <= (2 * 1024 * 1024)) { // Max size is 2MB
         setFormData({ ...formData, IMAGE: e.target.files[0] });
       } else {
-        alert('File size exceeds the maximum allowed limit (1MB).');
+        alert('File size exceeds the maximum allowed limit (2MB).');
         // Optionally, you can clear the file input field
         e.target.value = null;
       }
@@ -195,7 +193,7 @@ const Location = () => {
             item={item} 
             type="location" 
             fetchCodeImage={fetchLocations} 
-            className="locations" />
+            className="locations"/>
         ))}
         {open && <AddItem
             slug="Location" 
