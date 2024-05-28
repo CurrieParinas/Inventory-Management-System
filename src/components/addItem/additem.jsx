@@ -7,7 +7,11 @@ const AddItem = (props) => {
   const [itemType, setItemType] = useState('regular');
   const [locations, setLocations] = useState([]);
   const [filteredLocations, setFilteredLocations] = useState([]);
-  const [showSuggestions, setShowSuggestions] = useState(false);
+  const [showLocationSuggestions, setShowLocationSuggestions] = useState(false);
+  const [storageMediums, setStorageMediums] = useState([]);
+  const [filteredStorageMediums, setFilteredStorageMediums] = useState([]);
+  const [showMediumSuggestions, setShowMediumSuggestions] = useState(false);
+  const [imageName, setImageName] = useState('Choose File');
 
   const handleClickOutside = (event) => {
     if (modalRef.current && !modalRef.current.contains(event.target)) {
@@ -35,8 +39,6 @@ const AddItem = (props) => {
     }
   }, [props.className]);
 
-  console.log(isTracked + "istracked")
-
   useEffect(() => {
     const fetchLocations = async () => {
       try {
@@ -54,10 +56,27 @@ const AddItem = (props) => {
     fetchLocations();
   }, []);
 
+  useEffect(() => {
+    const fetchStorageMediums = async () => {
+      try {
+        const response = await fetch('http://localhost:8080/inventory/medium/all');
+        if (!response.ok) {
+          throw new Error('Failed to fetch storage mediums');
+        }
+        const data = await response.json();
+        setStorageMediums(data);
+      } catch (error) {
+        console.error('Error fetching storage mediums:', error);
+      }
+    };
+
+    fetchStorageMediums();
+  }, []);
+
   const handleLocationChange = (e) => {
     const input = e.target.value;
     props.handleChange(e);
-    setShowSuggestions(true);
+    setShowLocationSuggestions(true);
     if (input) {
       const filtered = locations.filter(location =>
         location.NAME.toLowerCase().includes(input.toLowerCase())
@@ -71,9 +90,41 @@ const AddItem = (props) => {
   const handleLocationSelect = (locationName) => {
     props.setFormData(prevState => ({
       ...prevState,
-      LOCATION: locationName
+      PARENT_LOCATION: locationName // Ensure this matches the field name in formData
     }));
-    setShowSuggestions(false);
+    setShowLocationSuggestions(false);
+  };
+
+  const handleMediumChange = (e) => {
+    const input = e.target.value;
+    props.handleChange(e);
+    setShowMediumSuggestions(true);
+    if (input) {
+      const filtered = storageMediums.filter(medium =>
+        medium.NAME.toLowerCase().includes(input.toLowerCase())
+      );
+      setFilteredStorageMediums(filtered);
+    } else {
+      setFilteredStorageMediums([]);
+    }
+  };
+
+  const handleMediumSelect = (mediumName) => {
+    props.setFormData(prevState => ({
+      ...prevState,
+      PARENT_STORAGE_MEDIUM: mediumName
+    }));
+    setShowMediumSuggestions(false);
+  };
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setImageName(file.name);
+    } else {
+      setImageName('Choose File');
+    }
+    props.handleImageChange(e);
   };
 
   return (
@@ -89,7 +140,7 @@ const AddItem = (props) => {
             column.field !== 'START_CONSUMPTION_DATE' && (
               <div className="item" key={column.field}>
                 <label htmlFor={column.field}>{column.headerName}: </label>
-                {column.field === 'LOCATION' ? (
+                {column.field === 'PARENT_LOCATION' ? (
                   <div className="auto-suggest-container">
                     <input
                       type="text"
@@ -99,7 +150,7 @@ const AddItem = (props) => {
                       placeholder={column.placeholder}
                       autoComplete="off"
                     />
-                    {showSuggestions && filteredLocations.length > 0 && (
+                    {showLocationSuggestions && filteredLocations.length > 0 && (
                       <ul className="suggestions">
                         {filteredLocations.map(location => (
                           <li
@@ -107,6 +158,29 @@ const AddItem = (props) => {
                             onClick={() => handleLocationSelect(location.NAME)}
                           >
                             {location.NAME}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </div>
+                ) : column.field === 'PARENT_STORAGE_MEDIUM' ? (
+                  <div className="auto-suggest-container">
+                    <input
+                      type="text"
+                      name={column.field}
+                      value={props.formData[column.field]}
+                      onChange={handleMediumChange}
+                      placeholder={column.placeholder}
+                      autoComplete="off"
+                    />
+                    {showMediumSuggestions && filteredStorageMediums.length > 0 && (
+                      <ul className="suggestions">
+                        {filteredStorageMediums.map(medium => (
+                          <li
+                            key={medium.MEDIUM_ID}
+                            onClick={() => handleMediumSelect(medium.NAME)}
+                          >
+                            {medium.NAME}
                           </li>
                         ))}
                       </ul>
@@ -126,10 +200,10 @@ const AddItem = (props) => {
                       type="file"
                       id={column.field}
                       name={column.field}
-                      onChange={props.handleImageChange}
+                      onChange={handleImageChange}
                       className="file-input"
                     />
-                    <span className="file-custom">Choose File</span>
+                    <span className="file-custom">{imageName}</span>
                   </label>
                 )}
               </div>

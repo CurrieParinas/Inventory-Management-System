@@ -125,6 +125,15 @@ const Location = () => {
             placeholder: 'Enter description',
         },
         {
+            field: 'PARENT_LOCATION',
+            headerName: 'Parent Location',
+            width: 150,
+            editable: true,
+            headerAlign: 'center',
+            align: 'center',
+            placeholder: 'Enter parent location',
+        },
+        {
           field: 'CREATE_DATE',
           headerName: 'Date Created',
           type: 'Date',
@@ -196,7 +205,8 @@ const Location = () => {
             handleChange={handleChange} 
             handleSubmit={handleSubmit} 
             handleImageChange={handleImageChange} 
-            resetFormData={resetFormData} />}
+            resetFormData={resetFormData} 
+            setFormData={setFormData}/>}
       </div>
     </div>
   )

@@ -151,13 +151,13 @@ const Medium = () => {
             placeholder: 'Enter medium',
         },
         {
-            field: 'LOCATION',
+            field: 'PARENT_LOCATION',
             headerName: 'Location',
             width: 150,
             editable: true,
             headerAlign: 'center',
             align: 'center',
-            placeholder: 'Enter storage location',
+            placeholder: 'Enter parent location',
         },
         {
           field: 'CREATE_DATE',
