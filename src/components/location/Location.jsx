@@ -13,6 +13,7 @@ const Location = () => {
             throw new Error('Failed to fetch locations');
           }
           const data = await response.json();
+          console.log(data)
           setLocations(data);
         } catch (error) {
           console.error('Error fetching locations:', error);
@@ -39,7 +40,9 @@ const Location = () => {
                             
                         </div>
                     </div>
-                    <span className="category"><i>{loc.PARENT_LOCATION} </i></span>
+                    {loc.PARENT_LOCATION && (
+                      <span className="category"><i>{loc.PARENT_LOCATION.LOCATION_ID} </i></span>
+                    )}
                 </div>
             ))}
         </div>

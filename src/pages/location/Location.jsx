@@ -6,7 +6,7 @@ import icon from "../../assets/location.svg"
 
 
 const Location = () => {
-  const [locations, setLocations] = useState([])
+  const [locations, setLocations] = useState([] )
   const [open, setOpen] = useState(false)
   const [formData, setFormData] = useState({
     NAME: '',
@@ -165,6 +165,7 @@ const Location = () => {
         setFormData({
           NAME: '',
           DESCRIPTION: '',
+          PARENT_LOCATION: '',
           IMAGE: ''
         });
       };
