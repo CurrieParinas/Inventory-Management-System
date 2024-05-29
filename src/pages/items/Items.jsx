@@ -191,7 +191,7 @@ const Items = () => {
             </div>
             <DataTable 
                 slug="trackeditems" 
-                columns={columns.filter(column => column.field !== 'IMAGE')} 
+                columns={columns.filter(column => column.field !== 'IMAGE' && column.field !== 'TRACKED')} 
                 rows={trackedItems.map(row => ({ ...row, id: row.ITEM_MEDIUM_ID }))} 
                 handleRefresh={fetchTrackedItems}
             />

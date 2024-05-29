@@ -12,7 +12,7 @@ const Medium = () => {
     NAME: '',
     DESCRIPTION: '',
     PARENT_LOCATION: '',
-    PARENT_MEDIUM_ID: '',
+    PARENT_MEDIUM: '',
     IMAGE: ''
   });
 
@@ -75,7 +75,7 @@ const Medium = () => {
           NAME: '',
           DESCRIPTION: '',
           PARENT_LOCATION: '',
-          PARENT_MEDIUM_ID: '',
+          PARENT_MEDIUM: '',
           IMAGE: ''
         });
       } catch (error) {
@@ -90,10 +90,10 @@ const Medium = () => {
 
     const handleImageChange = (e) => {
       const selectedFile = e.target.files[0];
-      if (selectedFile && selectedFile.size <= (1 * 1024 * 1024)) { // Max size is 1MB
+      if (selectedFile && selectedFile.size <= (2 * 1024 * 1024)) { // Max size is 2MB
         setFormData({ ...formData, IMAGE: e.target.files[0] });
       } else {
-        alert('File size exceeds the maximum allowed limit (1MB).');
+        alert('File size exceeds the maximum allowed limit (2MB).');
         // Optionally, you can clear the file input field
         e.target.value = null;
       }
@@ -104,7 +104,7 @@ const Medium = () => {
             NAME: '',
             DESCRIPTION: '',
             PARENT_LOCATION: '',
-            PARENT_MEDIUM_ID: '',
+            PARENT_MEDIUM: '',
             IMAGE: ''
         });
       };
@@ -151,8 +151,8 @@ const Medium = () => {
             placeholder: 'Enter parent location',
         },
         {
-            field: 'PARENT_STORAGE_MEDIUM',
-            headerName: 'Parent Storage Medium',
+            field: 'PARENT_MEDIUM',
+            headerName: 'Parent Medium',
             width: 150,
             editable: true,
             headerAlign: 'center',
@@ -206,7 +206,7 @@ const Medium = () => {
                 itemId={item.MEDIUM_ID}
                 item={item}
                 type="medium" 
-                fetchCodeImage={fetchMediums} 
+                fetchCodeImage={fetchMediumImage} 
                 className="mediums"/>
         ))}
         {open && <AddItem 

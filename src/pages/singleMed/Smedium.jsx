@@ -5,6 +5,7 @@ import './smedium.scss';
 const SMedium = () => {
   const { id } = useParams(); // Extracting the id from the URL
   const [medium, setMedium] = useState(null);
+  const [locationId, setLocationId] = useState('');
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -59,7 +60,7 @@ const SMedium = () => {
 
     const fetchAllMediums = async () => {
       try {
-        const response = await fetch('http://localhost:8080/inventory/medium/all');
+        const response = await fetch(`http://localhost:8080/inventory/medium/parentLocation/${locationId}`);
         if (!response.ok) {
           throw new Error('Failed to fetch all mediums');
         }
@@ -72,7 +73,7 @@ const SMedium = () => {
 
     fetchLocations();
     fetchAllMediums();
-  }, []);
+  }, [locationId]);
 
   // Function to fetch the medium image
   const fetchMediumImage = async (mediumId) => {
@@ -164,6 +165,7 @@ const SMedium = () => {
 
   const handleLocationSelect = (locationName, locationID) => {
     setMedium({ ...medium, PARENT_LOCATION: { LOCATION_ID: locationID, NAME: locationName } });
+    setLocationId(locationID);
     setShowLocationSuggestions(false);
   };
 
@@ -239,7 +241,7 @@ const SMedium = () => {
                 <input
                   type="text"
                   name="PARENT_MEDIUM"
-                  value={medium.PARENT_MEDIUM.MEDIUM_ID}
+                  value={medium.PARENT_MEDIUM?.MEDIUM_ID}
                   onChange={handleMediumChange}
                   autoComplete="off"
                 />

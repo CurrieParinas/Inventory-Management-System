@@ -43,7 +43,7 @@ const SingleLocation = () => {
     // Fetch parent locations
     const fetchParentLocations = async () => {
       try {
-        const response = await fetch('http://localhost:8080/inventory/location/all');
+        const response = await fetch('http://localhost:8080/inventory/location/locationsWithNoParent');
         if (!response.ok) {
           throw new Error('Failed to fetch parent locations');
         }
@@ -183,7 +183,7 @@ const SingleLocation = () => {
                 <input
                   type="text"
                   name="PARENT_LOCATION"
-                  value={parentLocationName}
+                  value={location.PARENT_LOCATION?.LOCATION_ID}
                   onChange={handleInputChange}
                   autoComplete="off"
                 />

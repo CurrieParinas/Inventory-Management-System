@@ -8,12 +8,8 @@ import { itemRowsUntracked } from '../../sidebar'
 const Untrack = () => {
     const [open, setOpen] = useState(false);
     const [formData, setFormData] = useState({
-        NAME: '',
-        DESCRIPTION: '',
-        BRAND: '', // Added BRAND field
-        PARENT_LOCATION: '',
-        PARENT_MEDIUM_ID: '',
-        IMAGE: ''
+        ITEM: '',
+        MEDIUM: ''
     });
 
     const[untrackedItems, setUntrackedItems]=useState([])
@@ -35,13 +31,46 @@ const Untrack = () => {
         fetchUntrackedItems();
     }, []);
 
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+    
+        const formDataWithImage = new FormData();
+        Object.entries(formData).forEach(([key, value]) => {
+            formDataWithImage.append(key, value);
+        });
+
+        formDataWithImage.set('TYPE', 'U');
+
+        console.log(formData);
+    
+        try {
+            const response = await fetch('http://localhost:8080/inventory/itemMedium/add', {
+                method: 'POST',
+                body: formDataWithImage,
+            });
+    
+            if (!response.ok) {
+                throw new Error('Failed to add tracked item');
+            }
+    
+            // Reload the tracked items after adding a new item
+            fetchUntrackedItems();
+
+            handleClose();
+            setOpen(false); // Close the AddItem modal after successful submission
+            setFormData({ // Clear the form data
+                ITEM: '',
+                MEDIUM: ''
+            });
+        } catch (error) {
+            console.error('Error adding tracked item:', error);
+        }
+    };
+
     const resetFormData = () => {
         setFormData({
-          NAME: '',
-          DESCRIPTION: '',
-          BRAND: '',
-          CODENAME: '',
-          IMAGE: '',
+            ITEM: '',
+            MEDIUM: ''
         });
       };
     
@@ -143,7 +172,7 @@ const Untrack = () => {
         </div>
         <DataTable 
             slug="untrackedItems" 
-            columns={columns.filter(column => column.field !== 'IMAGE')} 
+            columns={columns.filter(column => column.field !== 'IMAGE' && column.field !== 'UNTRACKED')} 
             rows={untrackedItems.map(row => ({ ...row, id: row.ITEM_MEDIUM_ID }))}
             handleRefresh={fetchUntrackedItems}
             />
@@ -154,7 +183,7 @@ const Untrack = () => {
             setOpen={setOpen}
             formData={formData} 
             handleChange={handleChange} 
-            // handleSubmit={handleSubmit} 
+            handleSubmit={handleSubmit} 
             handleImageChange={handleImageChange}
             resetFormData={resetFormData}
             setFormData={setFormData}/>}

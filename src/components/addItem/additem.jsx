@@ -15,7 +15,11 @@ const AddItem = (props) => {
   const [filteredAllMediums, setFilteredAllMediums] = useState([]);
   const [showAllMediumSuggestions, setShowAllMediumSuggestions] = useState(false);
   const [imageName, setImageName] = useState('Choose File');
+  const [itemName, setItemName] = useState('');
+  const [mediumName, setMediumName] = useState('');
   const [locationName, setLocationName] = useState('');
+  const [itemId, setItemId] = useState('');
+  const [mediumId, setMediumId] = useState('');
   const [locationId, setLocationId] = useState('');
   const [itemNames, setItemNames] = useState([]);
   const [filteredItemNames, setFilteredItemNames] = useState([]);
@@ -158,10 +162,12 @@ const AddItem = (props) => {
     }
   };
 
-  const handleMediumSelect = (mediumName) => {
+  const handleMediumSelect = (mediumName, mediumID) => {
+    setMediumName(mediumName);
+    setMediumId(mediumID);
     props.setFormData(prevState => ({
       ...prevState,
-      PARENT_STORAGE_MEDIUM: mediumName
+      PARENT_MEDIUM: mediumID
     }));
     setShowMediumSuggestions(false);
   };
@@ -180,10 +186,12 @@ const AddItem = (props) => {
     }
   };
 
-  const handleAllMediumSelect = (mediumName) => {
+  const handleAllMediumSelect = (mediumName, mediumID) => {
+    setMediumName(mediumName);
+    setMediumId(mediumID);
     props.setFormData(prevState => ({
       ...prevState,
-      MEDIUM: mediumName
+      MEDIUM: mediumID
     }));
     setShowAllMediumSuggestions(false);
   };
@@ -202,10 +210,12 @@ const AddItem = (props) => {
     }
   };
 
-  const handleItemNameSelect = (itemName) => {
+  const handleItemNameSelect = (itemName, itemID) => {
+    setItemName(itemName);
+    setItemId(itemID);
     props.setFormData(prevState => ({
       ...prevState,
-      NAME: itemName
+      ITEM: itemID,
     }));
     setShowItemNameSuggestions(false);
   };
@@ -219,6 +229,17 @@ const AddItem = (props) => {
     }
     props.handleImageChange(e);
   };
+
+  const handleTypeSelect = (e) => {
+    props.setFormData(prevState => ({
+      ...prevState,
+      TYPE: e
+    }));
+  }
+
+  useEffect(() => {
+    handleTypeSelect("R");
+  }, []);
 
   return (
     <div className='additem'>
@@ -256,12 +277,12 @@ const AddItem = (props) => {
                       </ul>
                     )}
                   </div>
-                ) : column.field === 'PARENT_STORAGE_MEDIUM' ? (
+                ) : column.field === 'PARENT_MEDIUM' ? (
                   <div className="auto-suggest-container">
                     <input
                       type="text"
                       name={column.field}
-                      value={props.formData[column.field]}
+                      value={props.formData[column.field] !== mediumId ? props.formData[column.field] : mediumName}
                       onChange={handleMediumChange}
                       placeholder={column.placeholder}
                       autoComplete="off"
@@ -271,7 +292,7 @@ const AddItem = (props) => {
                         {filteredStorageMediums.map(medium => (
                           <li
                             key={medium.MEDIUM_ID}
-                            onClick={() => handleMediumSelect(medium.NAME)}
+                            onClick={() => handleMediumSelect(medium.NAME, medium.MEDIUM_ID)}
                           >
                             {medium.NAME}
                           </li>
@@ -284,7 +305,7 @@ const AddItem = (props) => {
                     <input
                       type="text"
                       name={column.field}
-                      value={props.formData[column.field]}
+                      value={props.formData[column.field] !== mediumId ? props.formData[column.field] : mediumName}
                       onChange={handleAllMediumChange}
                       placeholder={column.placeholder}
                       autoComplete="off"
@@ -294,7 +315,7 @@ const AddItem = (props) => {
                         {filteredAllMediums.map(medium => (
                           <li
                             key={medium.MEDIUM_ID}
-                            onClick={() => handleAllMediumSelect(medium.NAME)}
+                            onClick={() => handleAllMediumSelect(medium.NAME, medium.MEDIUM_ID)}
                           >
                             {medium.NAME}
                           </li>
@@ -307,7 +328,7 @@ const AddItem = (props) => {
                     <input
                       type="text"
                       name={column.field}
-                      value={props.formData[column.field]}
+                      value={props.formData[column.field] !== itemId ? props.formData[column.field] : itemName}
                       onChange={handleItemNameChange}
                       placeholder={column.placeholder}
                       autoComplete="off"
@@ -317,7 +338,7 @@ const AddItem = (props) => {
                         {filteredItemNames.map(item => (
                           <li
                             key={item.ITEM_ID}
-                            onClick={() => handleItemNameSelect(item.NAME)}
+                            onClick={() => handleItemNameSelect(item.NAME, item.ITEM_ID)}
                           >
                             {item.NAME}
                           </li>
@@ -352,8 +373,8 @@ const AddItem = (props) => {
             <div className="item">
               <label>Type:</label>
               <select value={itemType} onChange={(e) => setItemType(e.target.value)}>
-                <option value="regular">Regular</option>
-                <option value="consumable">Consumable</option>
+                <option value="regular" onClick={() => handleTypeSelect("R")}>Regular</option>
+                <option value="consumable" onClick={() => handleTypeSelect("C")}>Consumable</option>
               </select>
             </div>
           )}

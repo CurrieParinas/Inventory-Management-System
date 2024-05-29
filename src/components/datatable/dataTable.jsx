@@ -11,9 +11,20 @@ import unarchiveIcon from "../../assets/unarchive.svg";
 const DataTable = (props) => {
   const navigate = useNavigate();
 
-  const handleDelete = (id) => {
-    // handle delete
-    console.log(id + " deleted");
+  const handleDelete = async (id) => {
+      try {
+        const response = await fetch(`http://localhost:8080/inventory/itemMedium/delete/${id}`, {
+            method: 'POST'
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to delete item');
+        }
+
+        props.handleRefresh();
+    } catch (error) {
+        console.error('Error deleting item:', error);
+    }
   };
 
   const handleArchive = async (id) => {
@@ -37,7 +48,23 @@ const DataTable = (props) => {
   };
 
   const handleUnarchive = async (id) => {
-    //code here
+    try {
+      const response = await fetch(`http://localhost:8080/inventory/itemMedium/setVisible/${id}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const data = await response.json();
+      props.handleRefresh();
+    } catch (error) {
+      console.error('There was an error unarchiving the item!', error);
+    }
   };
 
   const handleNavigate = (id) => {
