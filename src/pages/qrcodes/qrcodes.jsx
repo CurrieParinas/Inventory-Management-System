@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Card from '../../components/card/Card'; 
 import './qrcodes.scss'
+import icon from '../../assets/qr-code.svg'
 
 function Qrcodes() {
   const[items, setItems]=useState([])
@@ -38,6 +39,12 @@ function Qrcodes() {
     
   return (
     <div className='qrcode'>
+        <div className="info">
+            <div className="textdiv">
+                <img src={icon} alt="" style={{ width: '45px', height: '45px' }} />
+                <h1 style={{ marginLeft: "-10px" }}>QR Codes</h1>
+            </div>
+        </div>
         <div className="qrcodecontainer">
         {items.map((item) => (
             { ...items, id: item.ITEM_ID },

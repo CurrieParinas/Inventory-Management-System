@@ -142,15 +142,6 @@ const Medium = () => {
             placeholder: 'Enter description',
         },
         {
-            field: 'PARENT_STORAGE_MEDIUM',
-            headerName: 'Parent Storage Medium',
-            width: 150,
-            editable: true,
-            headerAlign: 'center',
-            align: 'center',
-            placeholder: 'Enter medium',
-        },
-        {
             field: 'PARENT_LOCATION',
             headerName: 'Location',
             width: 150,
@@ -158,6 +149,15 @@ const Medium = () => {
             headerAlign: 'center',
             align: 'center',
             placeholder: 'Enter parent location',
+        },
+        {
+            field: 'PARENT_STORAGE_MEDIUM',
+            headerName: 'Parent Storage Medium',
+            width: 150,
+            editable: true,
+            headerAlign: 'center',
+            align: 'center',
+            placeholder: 'Enter medium',
         },
         {
           field: 'CREATE_DATE',
@@ -217,7 +217,9 @@ const Medium = () => {
             handleChange={handleChange} 
             handleSubmit={handleSubmit} 
             handleImageChange={handleImageChange}
-            resetFormData={resetFormData} />}
+            resetFormData={resetFormData}
+            setFormData={setFormData} 
+            className="Medium"/>}
       </div>
     </div>
   )

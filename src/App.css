@@ -1,4 +1,15 @@
 .main {
-    /* width: 99vw; */
     overflow: hidden;
+    .container {
+        min-height: 90vh;
+        display: flex;
+        flex-direction: row;
+
+        /* .contentContainer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: -70px;
+        } */
+    }
 }

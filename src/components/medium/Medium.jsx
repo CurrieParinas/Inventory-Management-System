@@ -39,7 +39,7 @@ const Medium = () => {
                             
                         </div>
                     </div>
-                    <span className="category"><i>{med.PARENT_LOCATION} </i></span>
+                    <span className="category"><i>{med.PARENT_LOCATION.LOCATION_ID} </i></span>
                 </div>
             ))}
         </div>

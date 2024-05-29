@@ -21,6 +21,9 @@ import GeneralItems from './pages/generalItems/GeneralItems';
 import Location from './pages/location/Location';
 import Medium from './pages/medium/Medium';
 import Archive from './pages/archive/Archive';
+import GeneralItem from './pages/generalItem/GeneralItem';
+import SingleLocation from './pages/singleLoc/SingleLocation';
+import SMedium from './pages/singleMed/Smedium';
 
 
 function App() {
@@ -91,7 +94,7 @@ function App() {
                 },
                 {
                     path: "general-items/general-item/:id",
-                    element: <Item/>,
+                    element: <GeneralItem/>,
                 },
                 {
                     path: "locations",
@@ -99,7 +102,7 @@ function App() {
                 },
                 {
                     path: "locations/location/:id",
-                    element: <Item/>,
+                    element: <SingleLocation/>,
                 },
                 {
                     path: "mediums",
@@ -107,7 +110,7 @@ function App() {
                 },
                 {
                     path: "mediums/medium/:id",
-                    element: <Item/>,
+                    element: <SMedium/>,
                 },
                 {
                     path: "archive",

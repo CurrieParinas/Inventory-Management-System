@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './barcode.scss';
 import Card from '../../components/card/Card'; 
+import icon from "../../assets/barcode.svg";
 
 const Barcodes = () => {
   const[items, setItems]=useState([])
@@ -38,11 +39,17 @@ const Barcodes = () => {
 
   return (
     <div className='barcode'>
-      <div className="barcodecontainer">
-        {items.map((item) => (
-            <Card key={item.ITEM_ID} itemId={item.ITEM_ID} item={item} type="barcode" fetchCodeImage={fetchBarcode} className="barcodes"/>
-        ))}
-      </div>
+        <div className="info">
+            <div className="textdiv">
+                <img src={icon} alt="" style={{ width: '45px', height: '45px' }} />
+                <h1 style={{ marginLeft: "-10px" }}>Barcodes</h1>
+            </div>
+        </div>
+        <div className="barcodecontainer">
+            {items.map((item) => (
+                <Card key={item.ITEM_ID} itemId={item.ITEM_ID} item={item} type="barcode" fetchCodeImage={fetchBarcode} className="barcodes"/>
+            ))}
+        </div>
     </div>
   );
 };

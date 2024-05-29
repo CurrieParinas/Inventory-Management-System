@@ -9,13 +9,12 @@ const Items = () => {
     const [open, setOpen] = useState(false);
     const [trackedItems, setTrackedItems] = useState([]);
     const [formData, setFormData] = useState({
-        NAME: '',
-        DESCRIPTION: '',
-        BRAND: '', // Added BRAND field
+        ITEM: '',
+        MEDIUM: '',
+        TYPE: '',
         QUANTITY: '',
-        PARENT_LOCATION: '',
-        PARENT_MEDIUM_ID: '',
-        IMAGE: ''
+        START_CONSUMPTION_DATE: '',
+        END_CONSUMPTION_DATE: ''
     });
 
     const fetchTrackedItems = async () => {
@@ -61,13 +60,12 @@ const Items = () => {
             handleClose();
             setOpen(false); // Close the AddItem modal after successful submission
             setFormData({ // Clear the form data
-                NAME: '',
-                DESCRIPTION: '',
-                BRAND: '', // Clear BRAND field
+                ITEM: '',
+                MEDIUM: '',
+                TYPE: '',
                 QUANTITY: '',
-                PARENT_LOCATION: '',
-                PARENT_MEDIUM_ID: '',
-                IMAGE: ''
+                START_CONSUMPTION_DATE: '',
+                END_CONSUMPTION_DATE: ''
             });
         } catch (error) {
             console.error('Error adding tracked item:', error);
@@ -76,14 +74,12 @@ const Items = () => {
 
     const resetFormData = () => {
         setFormData({
-          NAME: '',
-          DESCRIPTION: '',
-          BRAND: '',
-          CODENAME: '',
-          QUANTITY: '',
-          IMAGE: '',
-          START_CONSUMPTION_DATE: '',
-          END_CONSUMPTION_DATE: ''
+            ITEM: '',
+            MEDIUM: '',
+            TYPE: '',
+            QUANTITY: '',
+            START_CONSUMPTION_DATE: '',
+            END_CONSUMPTION_DATE: ''
         });
       };
     
@@ -119,68 +115,42 @@ const Items = () => {
         },
         {
           field: 'NAME',
-          headerName: 'Name',
+          headerName: 'Name of Item',
           width: 150,
           editable: true,
           headerAlign: 'center',
           align: 'center',
           placeholder: 'Enter name'
         },
-        {
-          field: 'CODENAME',
-          headerName: 'Codename',
-          width: 120,
-          editable: true,
-          headerAlign: 'center',
-          align: 'center',
-          placeholder: 'Enter codename'
-        },
-        {
-            field: 'DESCRIPTION',
-            headerName: 'Description',
-            width: 150,
+        // {
+        //   field: 'CREATE_DATE',
+        //   headerName: 'Date Created',
+        //   type: 'Date',
+        //   width: 170,
+        //   headerAlign: 'center',
+        //   align: 'center',
+        //   placeholder: 'Enter Date Created'
+        // },
+        // {
+        //   field: 'LAST_MODIFIED',
+        //   headerName: 'Date Modified',
+        //   type: 'Date',
+        //   width: 170,
+        //   headerAlign: 'center',
+        //   align: 'center',
+        //   placeholder: 'Enter Date Modified'
+        // },
+          {
+            field: 'MEDIUM',
+            headerName: 'Medium',
+            type: 'text',
+            width: 130,
             editable: true,
             headerAlign: 'center',
             align: 'center',
-            placeholder: 'Enter description',
-        },
-        {
-          field: 'BRAND',
-          headerName: 'Brand',
-          width: 150,
-          editable: true,
-          headerAlign: 'center',
-          align: 'center',
-          placeholder: 'Enter brand'
-        },
-        {
-          field: 'CREATE_DATE',
-          headerName: 'Date Created',
-          type: 'Date',
-          width: 170,
-          headerAlign: 'center',
-          align: 'center',
-          placeholder: 'Enter Date Created'
-        },
-        {
-          field: 'LAST_MODIFIED',
-          headerName: 'Date Modified',
-          type: 'Date',
-          width: 170,
-          headerAlign: 'center',
-          align: 'center',
-          placeholder: 'Enter Date Modified'
-        },
-        {
-          field: 'IMAGE',
-          headerName: 'Image',
-          type: 'file',
-          width: 170,
-          headerAlign: 'center',
-          align: 'center',
-          placeholder: 'Upload Image'
-        },
-        {
+            placeholder: 'Enter medium'
+          },
+          {
             field: 'QUANTITY',
             headerName: 'Quantity*',
             type: 'number',
@@ -234,7 +204,8 @@ const Items = () => {
                 handleChange={handleChange} 
                 handleSubmit={handleSubmit} 
                 handleImageChange={handleImageChange}
-                resetFormData={resetFormData}/>}
+                resetFormData={resetFormData}
+                setFormData={setFormData}/>}
         </div>
     );
 }

@@ -9,7 +9,7 @@ const Navbar = () => {
     <div className='navbar'>
         <div className="logo">
             <img src={logo} alt='' style={{width:'40px', height:'40px'}}/>
-            <span>FindMhie</span>
+            <span>Trackmhie</span>
         </div>
         <div className="icons">
             <img src={search} alt='' className='icon' style={{width:'30px', height:'30px'}}/>

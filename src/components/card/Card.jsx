@@ -12,10 +12,9 @@ const Card = ({ itemId, item, type, fetchCodeImage, className }) => {
     
     useEffect(() => {   
         fetchImage();
-    });
+    }, [itemId, fetchCodeImage]); // Add dependencies to useEffect
 
-  return (
-    <Link to={`/${className}/${type}/${itemId}`} className="card-container">
+    const CardContent = (
         <div className='card'>
             <div className="image">
                 <img src={codeImageUrl} alt={`${item.NAME} cover`} />
@@ -25,8 +24,17 @@ const Card = ({ itemId, item, type, fetchCodeImage, className }) => {
                 <h4 className="card-desc">{item.DESCRIPTION}</h4>
             </div>
         </div>
-    </Link>
-  );
+    );
+
+    return (className === 'barcodes'|| className === 'qrcodes') ? (
+        <div className="card-container">
+            {CardContent}
+        </div>
+    ) : (
+        <Link to={`/${className}/${type}/${itemId}`} className="card-container">
+            {CardContent}
+        </Link>
+    );
 };
 
 export default Card;

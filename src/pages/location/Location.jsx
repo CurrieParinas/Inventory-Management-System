@@ -193,7 +193,7 @@ const Location = () => {
             itemId={item.LOCATION_ID}
             item={item} 
             type="location" 
-            fetchCodeImage={fetchLocations} 
+            fetchCodeImage={() => fetchLocationImage(item.LOCATION_ID)} 
             className="locations"/>
         ))}
         {open && <AddItem
@@ -205,7 +205,8 @@ const Location = () => {
             handleSubmit={handleSubmit} 
             handleImageChange={handleImageChange} 
             resetFormData={resetFormData} 
-            setFormData={setFormData}/>}
+            setFormData={setFormData}
+            className="Location"/>}
       </div>
     </div>
   )

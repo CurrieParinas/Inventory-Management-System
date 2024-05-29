@@ -5,6 +5,8 @@ import { useNavigate } from 'react-router-dom';
 import EditIcon from "../../assets/view.svg";
 import deleteIcon from "../../assets/delete.svg";
 import archiveIcon from "../../assets/archive.svg";
+import unarchiveIcon from "../../assets/unarchive.svg";
+
 
 const DataTable = (props) => {
   const navigate = useNavigate();
@@ -34,6 +36,10 @@ const DataTable = (props) => {
     }
   };
 
+  const handleUnarchive = async (id) => {
+    //code here
+  };
+
   const handleNavigate = (id) => {
     navigate(`/${props.slug}/${id}`);
   };
@@ -49,12 +55,18 @@ const DataTable = (props) => {
           <button onClick={() => handleNavigate(params.row.id)} style={{ background: "none", border: "none" }}>
             <img src={EditIcon} style={{ width: "25px", height: "25px" }} />
           </button>
-          <button className="archive" onClick={() => handleArchive(params.row.id)} style={{ background: "none", border: "none" }}>
-            <img src={archiveIcon} style={{ width: "25px", height: "25px" }} />
-          </button>
           <button className="delete" onClick={() => handleDelete(params.row.id)} style={{ background: "none", border: "none" }}>
-            <img src={deleteIcon} style={{ width: "25px", height: "25px" }} />
-          </button>
+                <img src={deleteIcon} style={{ width: "25px", height: "25px" }} />
+            </button>
+          {props.slug === "archiveditems" ? ( 
+            <button className="unarchive" onClick={() => handleUnarchive(params.row.id)} style={{ background: "none", border: "none" }}>
+                <img src={unarchiveIcon} style={{ width: "25px", height: "25px" }} />
+            </button>
+          ) : (
+            <button className="archive" onClick={() => handleArchive(params.row.id)} style={{ background: "none", border: "none" }}>
+                <img src={archiveIcon} style={{ width: "25px", height: "25px" }} />
+            </button>
+          )}
         </div>
       );
     }

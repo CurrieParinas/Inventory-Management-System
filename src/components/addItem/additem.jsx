@@ -11,7 +11,15 @@ const AddItem = (props) => {
   const [storageMediums, setStorageMediums] = useState([]);
   const [filteredStorageMediums, setFilteredStorageMediums] = useState([]);
   const [showMediumSuggestions, setShowMediumSuggestions] = useState(false);
+  const [allMediums, setAllMediums] = useState([]);
+  const [filteredAllMediums, setFilteredAllMediums] = useState([]);
+  const [showAllMediumSuggestions, setShowAllMediumSuggestions] = useState(false);
   const [imageName, setImageName] = useState('Choose File');
+  const [locationName, setLocationName] = useState('');
+  const [locationId, setLocationId] = useState('');
+  const [itemNames, setItemNames] = useState([]);
+  const [filteredItemNames, setFilteredItemNames] = useState([]);
+  const [showItemNameSuggestions, setShowItemNameSuggestions] = useState(false);
 
   const handleClickOutside = (event) => {
     if (modalRef.current && !modalRef.current.contains(event.target)) {
@@ -42,7 +50,12 @@ const AddItem = (props) => {
   useEffect(() => {
     const fetchLocations = async () => {
       try {
-        const response = await fetch('http://localhost:8080/inventory/location/all');
+        let response;
+        if (props.className === "Location") {
+          response = await fetch('http://localhost:8080/inventory/location/locationsWithNoParent');
+        } else {
+          response = await fetch('http://localhost:8080/inventory/location/all');
+        }
         if (!response.ok) {
           throw new Error('Failed to fetch locations');
         }
@@ -59,7 +72,7 @@ const AddItem = (props) => {
   useEffect(() => {
     const fetchStorageMediums = async () => {
       try {
-        const response = await fetch('http://localhost:8080/inventory/medium/all');
+        const response = await fetch(`http://localhost:8080/inventory/medium/parentLocation/${locationId}`);
         if (!response.ok) {
           throw new Error('Failed to fetch storage mediums');
         }
@@ -71,6 +84,40 @@ const AddItem = (props) => {
     };
 
     fetchStorageMediums();
+  }, [locationId]);
+
+  useEffect(() => {
+    const fetchItemNames = async () => {
+      try {
+        const response = await fetch('http://localhost:8080/inventory/item/all');
+        if (!response.ok) {
+          throw new Error('Failed to fetch item names');
+        }
+        const data = await response.json();
+        setItemNames(data);
+      } catch (error) {
+        console.error('Error fetching item names:', error);
+      }
+    };
+
+    fetchItemNames();
+  }, []);
+
+  useEffect(() => {
+    const fetchAllMediums = async () => {
+      try {
+        const response = await fetch('http://localhost:8080/inventory/medium/all');
+        if (!response.ok) {
+          throw new Error('Failed to fetch all mediums');
+        }
+        const data = await response.json();
+        setAllMediums(data);
+      } catch (error) {
+        console.error('Error fetching all mediums:', error);
+      }
+    };
+
+    fetchAllMediums();
   }, []);
 
   const handleLocationChange = (e) => {
@@ -87,10 +134,12 @@ const AddItem = (props) => {
     }
   };
 
-  const handleLocationSelect = (locationName) => {
+  const handleLocationSelect = (locationName, locationID) => {
+    setLocationName(locationName);
+    setLocationId(locationID);
     props.setFormData(prevState => ({
       ...prevState,
-      PARENT_LOCATION: locationName // Ensure this matches the field name in formData
+      PARENT_LOCATION: locationID // Set the location ID here
     }));
     setShowLocationSuggestions(false);
   };
@@ -115,6 +164,50 @@ const AddItem = (props) => {
       PARENT_STORAGE_MEDIUM: mediumName
     }));
     setShowMediumSuggestions(false);
+  };
+
+  const handleAllMediumChange = (e) => {
+    const input = e.target.value;
+    props.handleChange(e);
+    setShowAllMediumSuggestions(true);
+    if (input) {
+      const filtered = allMediums.filter(medium =>
+        medium.NAME.toLowerCase().includes(input.toLowerCase())
+      );
+      setFilteredAllMediums(filtered);
+    } else {
+      setFilteredAllMediums([]);
+    }
+  };
+
+  const handleAllMediumSelect = (mediumName) => {
+    props.setFormData(prevState => ({
+      ...prevState,
+      MEDIUM: mediumName
+    }));
+    setShowAllMediumSuggestions(false);
+  };
+
+  const handleItemNameChange = (e) => {
+    const input = e.target.value;
+    props.handleChange(e);
+    setShowItemNameSuggestions(true);
+    if (input) {
+      const filtered = itemNames.filter(item =>
+        item.NAME.toLowerCase().includes(input.toLowerCase())
+      );
+      setFilteredItemNames(filtered);
+    } else {
+      setFilteredItemNames([]);
+    }
+  };
+
+  const handleItemNameSelect = (itemName) => {
+    props.setFormData(prevState => ({
+      ...prevState,
+      NAME: itemName
+    }));
+    setShowItemNameSuggestions(false);
   };
 
   const handleImageChange = (e) => {
@@ -145,7 +238,7 @@ const AddItem = (props) => {
                     <input
                       type="text"
                       name={column.field}
-                      value={props.formData[column.field]}
+                      value={props.formData[column.field] !== locationId ? props.formData[column.field] : locationName}
                       onChange={handleLocationChange}
                       placeholder={column.placeholder}
                       autoComplete="off"
@@ -155,7 +248,7 @@ const AddItem = (props) => {
                         {filteredLocations.map(location => (
                           <li
                             key={location.LOCATION_ID}
-                            onClick={() => handleLocationSelect(location.NAME)}
+                            onClick={() => handleLocationSelect(location.NAME, location.LOCATION_ID)}
                           >
                             {location.NAME}
                           </li>
@@ -186,6 +279,52 @@ const AddItem = (props) => {
                       </ul>
                     )}
                   </div>
+                ) : column.field === 'MEDIUM' ? (
+                  <div className="auto-suggest-container">
+                    <input
+                      type="text"
+                      name={column.field}
+                      value={props.formData[column.field]}
+                      onChange={handleAllMediumChange}
+                      placeholder={column.placeholder}
+                      autoComplete="off"
+                    />
+                    {showAllMediumSuggestions && filteredAllMediums.length > 0 && (
+                      <ul className="suggestions">
+                        {filteredAllMediums.map(medium => (
+                          <li
+                            key={medium.MEDIUM_ID}
+                            onClick={() => handleAllMediumSelect(medium.NAME)}
+                          >
+                            {medium.NAME}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </div>
+                ) : column.field === 'NAME' && (props.className === 'trackeditems' || props.className === 'untrackeditems') ? (
+                  <div className="auto-suggest-container">
+                    <input
+                      type="text"
+                      name={column.field}
+                      value={props.formData[column.field]}
+                      onChange={handleItemNameChange}
+                      placeholder={column.placeholder}
+                      autoComplete="off"
+                    />
+                    {showItemNameSuggestions && filteredItemNames.length > 0 && (
+                      <ul className="suggestions">
+                        {filteredItemNames.map(item => (
+                          <li
+                            key={item.ITEM_ID}
+                            onClick={() => handleItemNameSelect(item.NAME)}
+                          >
+                            {item.NAME}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </div>
                 ) : column.field !== 'IMAGE' ? (
                   <input
                     type={column.type || 'text'}
@@ -209,16 +348,7 @@ const AddItem = (props) => {
               </div>
             )
           ))}
-          {(props.className === 'generalitems') && (
-            <div className="item">
-              <label>Tracked:</label>
-              <select value={isTracked ? 'tracked' : 'untracked'} onChange={(e) => setIsTracked(e.target.value === 'tracked')}>
-                <option value="untracked">Untracked</option>
-                <option value="tracked">Tracked</option>
-              </select>
-            </div>
-          )}
-          {(isTracked || props.className === 'trackeditems') && (
+          {(props.className === 'trackeditems') && (
             <div className="item">
               <label>Type:</label>
               <select value={itemType} onChange={(e) => setItemType(e.target.value)}>
@@ -227,7 +357,7 @@ const AddItem = (props) => {
               </select>
             </div>
           )}
-          {((isTracked || props.className === 'trackeditems') && itemType === 'consumable') && (
+          {(props.className === 'trackeditems' && itemType === 'consumable') && (
             <>
               {props.columns.filter(column => column.field === 'START_CONSUMPTION_DATE' || column.field === 'END_CONSUMPTION_DATE').map(column => (
                 <div className="item" key={column.field}>

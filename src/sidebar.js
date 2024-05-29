@@ -66,7 +66,7 @@ export const menu = [
         },
         {
             id: 7,
-            title: "QR codes",
+            title: "QR Codes",
             url: "/qrcodes",
             icon: qrcode,
         },

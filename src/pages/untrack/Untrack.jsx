@@ -69,7 +69,7 @@ const Untrack = () => {
 
     const columns = [
         { 
-          field: 'TRACKED', 
+          field: 'UNTRACKED', 
           headerName: 'ID', 
           width: 90,
           headerAlign: 'center',
@@ -86,59 +86,51 @@ const Untrack = () => {
           placeholder: 'Enter name'
         },
         {
-          field: 'CODENAME',
-          headerName: 'Codename',
-          width: 120,
-          editable: true,
-          headerAlign: 'center',
-          align: 'center',
-          placeholder: 'Enter codename'
-        },
-        {
-            field: 'DESCRIPTION',
-            headerName: 'Description',
-            width: 150,
+            field: 'MEDIUM',
+            headerName: 'Medium',
+            type: 'text',
+            width: 130,
             editable: true,
             headerAlign: 'center',
             align: 'center',
-            placeholder: 'Enter description',
+            placeholder: 'Enter medium'
         },
-        {
-          field: 'BRAND',
-          headerName: 'Brand',
-          width: 150,
-          editable: true,
-          headerAlign: 'center',
-          align: 'center',
-          placeholder: 'Enter brand'
-        },
-        {
-          field: 'CREATE_DATE',
-          headerName: 'Date Created',
-          type: 'Date',
-          width: 170,
-          headerAlign: 'center',
-          align: 'center',
-          placeholder: 'Enter Date Created'
-        },
-        {
-          field: 'LAST_MODIFIED',
-          headerName: 'Date Modified',
-          type: 'Date',
-          width: 170,
-          headerAlign: 'center',
-          align: 'center',
-          placeholder: 'Enter Date Modified'
-        },
-        {
-          field: 'IMAGE',
-          headerName: 'Image',
-          type: 'file',
-          width: 170,
-          headerAlign: 'center',
-          align: 'center',
-          placeholder: 'Upload Image'
-        },
+        // {
+        //   field: 'CODENAME',
+        //   headerName: 'Codename',
+        //   width: 120,
+        //   editable: true,
+        //   headerAlign: 'center',
+        //   align: 'center',
+        //   placeholder: 'Enter codename'
+        // },
+        // {
+        //   field: 'CREATE_DATE',
+        //   headerName: 'Date Created',
+        //   type: 'Date',
+        //   width: 170,
+        //   headerAlign: 'center',
+        //   align: 'center',
+        //   placeholder: 'Enter Date Created'
+        // },
+        // {
+        //   field: 'LAST_MODIFIED',
+        //   headerName: 'Date Modified',
+        //   type: 'Date',
+        //   width: 170,
+        //   headerAlign: 'center',
+        //   align: 'center',
+        //   placeholder: 'Enter Date Modified'
+        // },
+        // {
+        //   field: 'IMAGE',
+        //   headerName: 'Image',
+        //   type: 'file',
+        //   width: 170,
+        //   headerAlign: 'center',
+        //   align: 'center',
+        //   placeholder: 'Upload Image'
+        // },
       ];
     return (
     <div className='untrackedItems'>
@@ -157,13 +149,15 @@ const Untrack = () => {
             />
         {open && <AddItem 
             slug="Untracked Items" 
+            className="untrackeditems"
             columns={columns} 
             setOpen={setOpen}
             formData={formData} 
             handleChange={handleChange} 
             // handleSubmit={handleSubmit} 
             handleImageChange={handleImageChange}
-            resetFormData={resetFormData}/>}
+            resetFormData={resetFormData}
+            setFormData={setFormData}/>}
     </div>
   )
 }
