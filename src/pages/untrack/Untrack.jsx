@@ -124,6 +124,15 @@ const Untrack = () => {
             align: 'center',
             placeholder: 'Enter medium'
         },
+        {
+            field: 'LOCATION_NAME',
+            headerName: 'Location',
+            type: 'text',
+            width: 130,
+            editable: true,
+            headerAlign: 'center',
+            align: 'center',
+          },
         // {
         //   field: 'CODENAME',
         //   headerName: 'Codename',
@@ -179,7 +188,7 @@ const Untrack = () => {
         {open && <AddItem 
             slug="Untracked Items" 
             className="untrackeditems"
-            columns={columns} 
+            columns={columns.filter(column => column.field !== 'LOCATION_NAME')} 
             setOpen={setOpen}
             formData={formData} 
             handleChange={handleChange} 

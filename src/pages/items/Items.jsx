@@ -25,7 +25,6 @@ const Items = () => {
             }
             const data = await response.json();
             setTrackedItems(data);
-            console.log(trackedItems)
         } catch (error) {
             console.error('Error fetching tracked items:', error);
         }
@@ -33,6 +32,7 @@ const Items = () => {
 
     useEffect(() => {
         fetchTrackedItems();
+        console.log(trackedItems)
     }, []);
 
     const handleSubmit = async (e) => {
@@ -152,6 +152,15 @@ const Items = () => {
             placeholder: 'Enter medium'
           },
           {
+            field: 'LOCATION_NAME',
+            headerName: 'Location',
+            type: 'text',
+            width: 130,
+            editable: true,
+            headerAlign: 'center',
+            align: 'center',
+          },
+          {
             field: 'QUANTITY',
             headerName: 'Quantity*',
             type: 'number',
@@ -199,7 +208,7 @@ const Items = () => {
             {open && <AddItem 
                 className="trackeditems" 
                 slug="Tracked Items" 
-                columns={columns} 
+                columns={columns.filter(column => column.field !== 'LOCATION_NAME')} 
                 setOpen={setOpen} 
                 formData={formData}
                 handleChange={handleChange} 
