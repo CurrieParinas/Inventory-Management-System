@@ -25,6 +25,7 @@ const Items = () => {
             }
             const data = await response.json();
             setTrackedItems(data);
+            console.log(trackedItems)
         } catch (error) {
             console.error('Error fetching tracked items:', error);
         }
@@ -141,7 +142,7 @@ const Items = () => {
         //   placeholder: 'Enter Date Modified'
         // },
           {
-            field: 'MEDIUM',
+            field: 'MEDIUM_NAME',
             headerName: 'Medium',
             type: 'text',
             width: 130,

@@ -236,9 +236,9 @@ const GeneralItems = () => {
           handleChange={handleChange} 
           handleSubmit={handleSubmit} 
           handleImageChange={handleImageChange} 
-          resetFormData={resetFormData} 
-          className="generalitems"
-        />}
+          resetFormData={resetFormData}
+          setFormData={setFormData}
+          className="generalitems"/>}
       </div>
     </div>
   );

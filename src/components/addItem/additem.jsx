@@ -300,12 +300,12 @@ const AddItem = (props) => {
                       </ul>
                     )}
                   </div>
-                ) : column.field === 'MEDIUM' ? (
+                ) : column.field === 'MEDIUM_NAME' ? (
                   <div className="auto-suggest-container">
                     <input
                       type="text"
                       name={column.field}
-                      value={props.formData[column.field] !== mediumId ? props.formData[column.field] : mediumName}
+                      value={props.formData["MEDIUM"] !== mediumId ? props.formData["MEDIUM"] : mediumName}
                       onChange={handleAllMediumChange}
                       placeholder={column.placeholder}
                       autoComplete="off"
@@ -328,7 +328,7 @@ const AddItem = (props) => {
                     <input
                       type="text"
                       name={column.field}
-                      value={props.formData[column.field] !== itemId ? props.formData[column.field] : itemName}
+                      value={props.formData["ITEM"] !== itemId ? props.formData["ITEM"] : itemName}
                       onChange={handleItemNameChange}
                       placeholder={column.placeholder}
                       autoComplete="off"

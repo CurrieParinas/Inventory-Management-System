@@ -115,7 +115,7 @@ const Untrack = () => {
           placeholder: 'Enter name'
         },
         {
-            field: 'MEDIUM',
+            field: 'MEDIUM_NAME',
             headerName: 'Medium',
             type: 'text',
             width: 130,
