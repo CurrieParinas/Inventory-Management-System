@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import './archive.scss'
 import DataTable from '../../components/datatable/dataTable'
 import Box from "../../assets/box.svg"
+import { format } from 'date-fns';
 
 
 const Archive = () => {
@@ -41,14 +42,6 @@ const Archive = () => {
           align: 'center',
         },
         {
-          field: 'CODENAME',
-          headerName: 'Codename',
-          width: 120,
-          editable: true,
-          headerAlign: 'center',
-          align: 'center',
-        },
-        {
           field: 'BRAND',
           headerName: 'Brand',
           width: 150,
@@ -57,51 +50,47 @@ const Archive = () => {
           align: 'center',
         },
         {
-          field: 'QUANTITY',
-          headerName: 'Quantity*',
-          type: 'number',
-          width: 130,
-          editable: true,
-          headerAlign: 'center',
-          align: 'center',
-        },
-        {
           field: 'MEDIUM_NAME',
-          headerName: 'Storage Medium',
+          headerName: 'Medium',
           width: 180,
           headerAlign: 'center',
           align: 'center',
         },
         {
           field: 'LOCATION_NAME',
-          headerName: 'Storage Location',
+          headerName: 'Location',
           width: 200,
           headerAlign: 'center',
           align: 'center',
         },
         {
-          field: 'CREATE_DATE',
-          headerName: 'Date Created',
-          type: 'Date',
-          width: 170,
+          field: 'QUANTITY',
+          headerName: 'Quantity*',
+          type: 'number',
+          width: 100,
+          editable: true,
           headerAlign: 'center',
           align: 'center',
         },
         {
-          field: 'LAST_MODIFIED',
-          headerName: 'Date Modified',
+          field: 'START_CONSUMPTION_DATE',
+          headerName: 'Start Consumption Date',
           type: 'Date',
-          width: 170,
+          width: 130,
+          editable: true,
           headerAlign: 'center',
           align: 'center',
+          renderCell: (params) => params.value ? format(new Date(params.value), 'MM/dd/yyyy') : 'N/A',
         },
         {
-            field: 'IMAGE',
-            headerName: 'Image',
-            type: 'file',
-            width: 170,
-            headerAlign: 'center',
-            align: 'center',
+          field: 'END_CONSUMPTION_DATE',
+          headerName: 'End Consumption Date',
+          type: 'Date',
+          width: 130,
+          editable: true,
+          headerAlign: 'center',
+          align: 'center',
+          renderCell: (params) => params.value ? format(new Date(params.value), 'MM/dd/yyyy') : 'N/A',
         },
     ];
 
@@ -111,7 +100,7 @@ const Archive = () => {
             <img src={Box} alt="" style={{width:'40px', height:'40px'}}/>
             <h1 style={{marginLeft:"-10px"}}>Archived Items</h1>
         </div>
-        <DataTable slug="archiveditems" columns={columns.filter(column => column.field !== 'IMAGE')} rows={archivedItems.map(row => ({ ...row, id: row.ITEM_MEDIUM_ID }))} handleRefresh={fetchArchivedItems}/>
+        <DataTable slug="archiveditems" columns={columns.filter(column => column.field !== 'IMAGE' && column.field !== 'ITEM_MEDIUM_ID')} rows={archivedItems.map(row => ({ ...row, id: row.ITEM_MEDIUM_ID }))} handleRefresh={fetchArchivedItems}/>
     </div>
   )
 }

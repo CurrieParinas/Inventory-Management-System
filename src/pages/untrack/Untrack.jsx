@@ -107,12 +107,20 @@ const Untrack = () => {
         },
         {
           field: 'NAME',
-          headerName: 'Name',
+          headerName: 'Name of Item',
           width: 150,
           editable: true,
           headerAlign: 'center',
           align: 'center',
           placeholder: 'Enter name'
+        },
+        {
+          field: 'BRAND',
+          headerName: 'Brand',
+          width: 150,
+          editable: true,
+          headerAlign: 'center',
+          align: 'center',
         },
         {
             field: 'MEDIUM_NAME',
@@ -133,42 +141,6 @@ const Untrack = () => {
             headerAlign: 'center',
             align: 'center',
           },
-        // {
-        //   field: 'CODENAME',
-        //   headerName: 'Codename',
-        //   width: 120,
-        //   editable: true,
-        //   headerAlign: 'center',
-        //   align: 'center',
-        //   placeholder: 'Enter codename'
-        // },
-        // {
-        //   field: 'CREATE_DATE',
-        //   headerName: 'Date Created',
-        //   type: 'Date',
-        //   width: 170,
-        //   headerAlign: 'center',
-        //   align: 'center',
-        //   placeholder: 'Enter Date Created'
-        // },
-        // {
-        //   field: 'LAST_MODIFIED',
-        //   headerName: 'Date Modified',
-        //   type: 'Date',
-        //   width: 170,
-        //   headerAlign: 'center',
-        //   align: 'center',
-        //   placeholder: 'Enter Date Modified'
-        // },
-        // {
-        //   field: 'IMAGE',
-        //   headerName: 'Image',
-        //   type: 'file',
-        //   width: 170,
-        //   headerAlign: 'center',
-        //   align: 'center',
-        //   placeholder: 'Upload Image'
-        // },
       ];
     return (
     <div className='untrackedItems'>
@@ -188,7 +160,7 @@ const Untrack = () => {
         {open && <AddItem 
             slug="Untracked Items" 
             className="untrackeditems"
-            columns={columns.filter(column => column.field !== 'LOCATION_NAME')} 
+            columns={columns.filter(column => column.field !== 'BRAND' && column.field !== 'LOCATION_NAME')} 
             setOpen={setOpen}
             formData={formData} 
             handleChange={handleChange} 

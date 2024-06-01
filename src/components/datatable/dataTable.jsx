@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import "./datatable.scss";
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { useNavigate } from 'react-router-dom';
@@ -6,22 +6,54 @@ import EditIcon from "../../assets/view.svg";
 import deleteIcon from "../../assets/delete.svg";
 import archiveIcon from "../../assets/archive.svg";
 import unarchiveIcon from "../../assets/unarchive.svg";
+import Modal from '@mui/material/Modal';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+
+
+const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    bgcolor: 'background.paper',
+    boxShadow: 24,
+    p: 4,
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between'
+  };
+  
 
 
 const DataTable = (props) => {
   const navigate = useNavigate();
+  const [open, setOpen] = useState(false);
+  const [quantity, setQuantity] = useState(0);
+  const [selectedRow, setSelectedRow] = useState(null);
+  const [rowID,setRowID] = useState();
+
+  const handleOpen = (row,id) => {
+    setRowID(id);
+    setQuantity(row.quantity);
+    setOpen(true);
+  };
+  
+  const handleClose = () => setOpen(false);
 
   const handleDelete = async (id) => {
-      try {
-        const response = await fetch(`http://localhost:8080/inventory/itemMedium/delete/${id}`, {
-            method: 'POST'
-        });
+    try {
+      const response = await fetch(`http://localhost:8080/inventory/itemMedium/delete/${id}`, {
+          method: 'POST'
+      });
 
-        if (!response.ok) {
-            throw new Error('Failed to delete item');
-        }
+      if (!response.ok) {
+          throw new Error('Failed to delete item');
+      }
 
-        props.handleRefresh();
+      props.handleRefresh();
     } catch (error) {
         console.error('Error deleting item:', error);
     }
@@ -71,6 +103,38 @@ const DataTable = (props) => {
     navigate(`/${props.slug}/${id}`);
   };
 
+  const handleAdd = async (id) => {
+    try {
+      const response = await fetch(`http://localhost:8080/inventory/itemMedium/addQuantity/${id}/${quantity}`, {
+          method: 'POST'
+      });
+
+      if (!response.ok) {
+          throw new Error('Failed to add quantity');
+      }
+
+      props.handleRefresh();
+    } catch (error) {
+        console.error('Error adding quantity:', error);
+    }
+  };
+
+  const handleSubtract = async (id) => {
+    try {
+      const response = await fetch(`http://localhost:8080/inventory/itemMedium/subtractQuantity/${id}/${quantity}`, {
+          method: 'POST'
+      });
+
+      if (!response.ok) {
+          throw new Error('Failed to subtract quantity');
+      }
+
+      props.handleRefresh();
+    } catch (error) {
+        console.error('Error subtracting quantity:', error);
+    }
+  };
+
   const actionColumn = {
     field: "action",
     headerName: "Action",
@@ -99,13 +163,30 @@ const DataTable = (props) => {
     }
   };
 
+  const quantityEditColumn = {
+    field: 'editQuantity',
+    headerName: 'Edit Quantity',
+    headerAlign: 'center',
+    width: 165,
+    renderCell: (params) => (
+      <Button variant="contained" color="primary" onClick={() => handleOpen(params.row, params.row.id)} id={params.row.id} >
+        Edit Quantity
+      </Button>
+    ),
+  };
+
+  const columns = props.columns.map((col) => 
+    col.field === 'QUANTITY' ? [col, quantityEditColumn] : col
+  ).flat();
+
+
   return (
     <div className='datatable'>
       <DataGrid
         style={{ minHeight: '30vh' }}
         className='dataGrid'
         rows={props.rows}
-        columns={[...props.columns, actionColumn]}
+        columns={[...columns, actionColumn]}
         initialState={{
           pagination: {
             paginationModel: {
@@ -127,6 +208,38 @@ const DataTable = (props) => {
         disableDensitySelector
         disableColumnSelector
       />
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <>
+          <h2 id="modal-modal-title">Edit Quantity</h2>
+          <TextField
+            id="quantity"
+            label="Quantity"
+            type="number"
+            value={quantity}
+            onChange={(e) => setQuantity(e.target.value)}
+            fullWidth
+            variant="outlined"
+            margin="normal"
+          />
+          </>
+          <>
+          <div style={{display: 'flex', flexDirection:'row', justifyContent:'space-between'}}>
+            <Button variant="contained" color="primary" onClick={() => handleAdd(rowID)}>
+                +
+            </Button>
+            <Button variant="contained" color="primary" onClick={() => handleSubtract(rowID)}>
+                -
+            </Button>
+          </div>
+          </>
+        </Box>
+      </Modal>
     </div>
   );
 }

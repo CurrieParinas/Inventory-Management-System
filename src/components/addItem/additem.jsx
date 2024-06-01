@@ -340,7 +340,7 @@ const AddItem = (props) => {
                             key={item.ITEM_ID}
                             onClick={() => handleItemNameSelect(item.NAME, item.ITEM_ID)}
                           >
-                            {item.NAME}
+                            {item.NAME + " - " + item.BRAND}
                           </li>
                         ))}
                       </ul>

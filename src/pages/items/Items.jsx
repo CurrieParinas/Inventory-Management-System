@@ -4,6 +4,7 @@ import DataTable from '../../components/datatable/dataTable';
 import { itemRows } from '../../sidebar';
 import Box from "../../assets/box.svg";
 import AddItem from '../../components/addItem/additem';
+import { format } from 'date-fns';
 
 const Items = () => {
     const [open, setOpen] = useState(false);
@@ -123,24 +124,14 @@ const Items = () => {
           align: 'center',
           placeholder: 'Enter name'
         },
-        // {
-        //   field: 'CREATE_DATE',
-        //   headerName: 'Date Created',
-        //   type: 'Date',
-        //   width: 170,
-        //   headerAlign: 'center',
-        //   align: 'center',
-        //   placeholder: 'Enter Date Created'
-        // },
-        // {
-        //   field: 'LAST_MODIFIED',
-        //   headerName: 'Date Modified',
-        //   type: 'Date',
-        //   width: 170,
-        //   headerAlign: 'center',
-        //   align: 'center',
-        //   placeholder: 'Enter Date Modified'
-        // },
+        {
+            field: 'BRAND',
+            headerName: 'Brand',
+            width: 150,
+            editable: true,
+            headerAlign: 'center',
+            align: 'center',
+          },
           {
             field: 'MEDIUM_NAME',
             headerName: 'Medium',
@@ -164,7 +155,7 @@ const Items = () => {
             field: 'QUANTITY',
             headerName: 'Quantity*',
             type: 'number',
-            width: 130,
+            width: 100,
             editable: true,
             headerAlign: 'center',
             align: 'center',
@@ -173,21 +164,23 @@ const Items = () => {
           {
             field: 'START_CONSUMPTION_DATE',
             headerName: 'Start Consumption Date',
-            type: 'date',
+            type: 'Date',
             width: 130,
             editable: true,
             headerAlign: 'center',
             align: 'center',
-        },
-        {
+            renderCell: (params) => params.value ? format(new Date(params.value), 'MM/dd/yyyy') : 'N/A',
+          },
+          {
             field: 'END_CONSUMPTION_DATE',
             headerName: 'End Consumption Date',
-            type: 'date',
+            type: 'Date',
             width: 130,
             editable: true,
             headerAlign: 'center',
             align: 'center',
-        },
+            renderCell: (params) => params.value ? format(new Date(params.value), 'MM/dd/yyyy') : 'N/A',
+          },
       ];
 
     return (
@@ -208,7 +201,7 @@ const Items = () => {
             {open && <AddItem 
                 className="trackeditems" 
                 slug="Tracked Items" 
-                columns={columns.filter(column => column.field !== 'LOCATION_NAME')} 
+                columns={columns.filter(column => column.field !== 'BRAND' && column.field !== 'LOCATION_NAME')} 
                 setOpen={setOpen} 
                 formData={formData}
                 handleChange={handleChange} 
