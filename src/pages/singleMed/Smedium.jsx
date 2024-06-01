@@ -95,49 +95,47 @@ const SMedium = () => {
   };
 
   const handleSaveClick = async () => {
-    // Logic to save the updated details
-    const updatedMedium = { ...medium };
+    const formDataWithImage = new FormData();
+    Object.entries(medium).forEach(([key, value]) => {
+      if (key === "PARENT_LOCATION" && value !== null && value !== undefined) {
+        formDataWithImage.append(key, value.LOCATION_ID);
+      } else if (key === "PARENT_MEDIUM" && value !== null && value !== undefined) {
+        formDataWithImage.append(key, value.MEDIUM_ID);
+      } else if (key !== "IMAGE" && value !== null && value !== undefined) {
+        formDataWithImage.append(key, value);
+      }
+    });
+
+    if (newImage) {
+      Object.entries(newImage).forEach(([key, value]) => {
+        formDataWithImage.append(key, value);
+      });
+    }
 
     try {
-      const response = await fetch(`http://localhost:8080/inventory/medium/update`, {
+      const response = await fetch(`http://localhost:8080/inventory/medium/update/${id}`, {
         method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(updatedMedium),
+        body: formDataWithImage,
       });
 
       if (!response.ok) {
         throw new Error('Failed to update medium');
       }
 
-      if (newImage) {
-        const formData = new FormData();
-        formData.append('image', newImage);
+      console.log(formDataWithImage)
 
-        const imageResponse = await fetch(`http://localhost:8080/inventory/medium/uploadImage/${id}`, {
-          method: 'POST',
-          body: formData,
-        });
-
-        if (!imageResponse.ok) {
-          throw new Error('Failed to upload image');
-        }
-
-        const newImageUrl = await fetchMediumImage(id);
-        setImage(newImageUrl);
-      }
-
-      setMedium(updatedMedium);
+      const newImageUrl = await fetchMediumImage(id);
+      setImage(newImageUrl);
+      setNewImage(null);
       setIsEditing(false);
     } catch (error) {
-      setError(error);
+      console.error('Error updating medium:', error);
     }
   };
 
   const handleCancelClick = () => {
-    setIsEditing(false);
     setNewImage(null);
+    setIsEditing(false);
   };
 
   const handleInputChange = (e) => {
@@ -146,7 +144,14 @@ const SMedium = () => {
   };
 
   const handleImageChange = (e) => {
-    setNewImage(e.target.files[0]);
+    const selectedFile = e.target.files[0];
+    if (selectedFile && selectedFile.size <= (2 * 1024 * 1024)) { // Max size is 2MB
+      setNewImage({ IMAGE: e.target.files[0] });
+    } else {
+      alert('File size exceeds the maximum allowed limit (2MB).');
+      // Optionally, you can clear the file input field
+      e.target.value = null;
+    }
   };
 
   const handleLocationChange = (e) => {

@@ -55,49 +55,43 @@ const GeneralItem = () => {
   };
 
   const handleSaveClick = async () => {
-    // Logic to save the updated details
-    const updatedItem = { ...item };
+    const formDataWithImage = new FormData();
+    Object.entries(item).forEach(([key, value]) => {
+      if (key !== "IMAGE" && value !== null && value !== undefined) {
+        formDataWithImage.append(key, value);
+      }
+    });
+
+    if (newImage) {
+      Object.entries(newImage).forEach(([key, value]) => {
+        formDataWithImage.append(key, value);
+      });
+    }
 
     try {
-      const response = await fetch(`http://localhost:8080/inventory/item/${id}`, {
+      const response = await fetch(`http://localhost:8080/inventory/item/update/${id}`, {
         method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(updatedItem),
+        body: formDataWithImage,
       });
 
       if (!response.ok) {
         throw new Error('Failed to update item');
       }
 
-      if (newImage) {
-        const formData = new FormData();
-        formData.append('image', newImage);
+      console.log(formDataWithImage)
 
-        const imageResponse = await fetch(`http://localhost:8080/inventory/item/uploadImage/${id}`, {
-          method: 'POST',
-          body: formData,
-        });
-
-        if (!imageResponse.ok) {
-          throw new Error('Failed to upload image');
-        }
-
-        const newImageUrl = await fetchItemImage(id);
-        setImage(newImageUrl);
-      }
-
-      setItem(updatedItem);
+      const newImageUrl = await fetchItemImage(id);
+      setImage(newImageUrl);
+      setNewImage(null);
       setIsEditing(false);
     } catch (error) {
-      setError(error);
+      console.error('Error updating item:', error);
     }
   };
 
   const handleCancelClick = () => {
-    setIsEditing(false);
     setNewImage(null);
+    setIsEditing(false);
   };
 
   const handleInputChange = (e) => {
@@ -106,7 +100,14 @@ const GeneralItem = () => {
   };
 
   const handleImageChange = (e) => {
-    setNewImage(e.target.files[0]);
+    const selectedFile = e.target.files[0];
+    if (selectedFile && selectedFile.size <= (2 * 1024 * 1024)) { // Max size is 2MB
+      setNewImage({ IMAGE: e.target.files[0] });
+    } else {
+      alert('File size exceeds the maximum allowed limit (2MB).');
+      // Optionally, you can clear the file input field
+      e.target.value = null;
+    }
   };
 
   if (loading) return <div className="loading">Loading...</div>;

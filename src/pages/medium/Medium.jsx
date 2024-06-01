@@ -51,7 +51,9 @@ const Medium = () => {
     
       const formDataWithImage = new FormData();
       Object.entries(formData).forEach(([key, value]) => {
-        formDataWithImage.append(key, value);
+        if (value !== null && value !== undefined) {
+          formDataWithImage.append(key, value);
+        }
       });
 
       console.log(formData);
