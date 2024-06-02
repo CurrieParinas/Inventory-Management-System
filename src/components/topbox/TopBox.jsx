@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { Link } from "react-router-dom"
+import { Link, useNavigate} from "react-router-dom"
 import "./topbox.scss"
 import { trackedItems } from '../../sidebar'
-import box from "../../assets/box.svg"
+import box from "../../assets/box2.svg"
 
 const TopBox = () => {
+    const navigate = useNavigate();
     const[trackedItems, setTrackedItems]=useState([])
 
     const fetchTrackedItems = async () => {
@@ -34,7 +35,6 @@ const TopBox = () => {
             {trackedItems.map(item=>(
                 <div className="listItem" key={item.ITEM_MEDIUM_ID}>
                     <div className="trackedItemInfo">
-                        <div className="itemNumber" style={{minWidth: '16.5px'}}>{item.ITEM_MEDIUM_ID}</div>
                         <div className="itemTexts">
                             <span className="trackedItemName">{item.NAME}</span>
                             <div className="subtext">
@@ -48,13 +48,9 @@ const TopBox = () => {
             ))}
         </div>
         <div className="ctaTrackedItem">
-            <Link to="items" className='toTrackedItemLink'>
-                <span className="listItemTitle">View All</span>
-            </Link>
             <div className='addTrackedItemButton'>
-                <button>Add Item</button>
+                <button onClick={() => navigate('/items')}>Add Item</button>
             </div>
-            
         </div>
     </div>
   )

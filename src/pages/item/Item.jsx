@@ -24,7 +24,7 @@ const Item = () => {
   }, [id]);
 
   if (!itemData) {
-    return <div>Loading...</div>;
+    return <div className="loading">Loading...</div>;
   }
 
   const { ITEM, MEDIUM, QUANTITY, TYPE, START_CONSUMPTION_DATE, END_CONSUMPTION_DATE } = itemData;
@@ -38,7 +38,7 @@ const Item = () => {
 
     return (
       <div className="parent-location">
-        <p><strong>Name:</strong> {NAME}</p>
+        <p><strong>Parent Location Name:</strong> {NAME}</p>
         <p><strong>Description:</strong> {DESCRIPTION}</p>
         {renderParentLocation(parentLocation)}
       </div>
@@ -52,7 +52,7 @@ const Item = () => {
 
     return (
       <div className="parent-medium">
-        <p><strong>Name:</strong> {NAME}</p>
+        <p><strong>Parent Medium Name:</strong> {NAME}</p>
         <p><strong>Description:</strong> {DESCRIPTION}</p>
         {renderParentMedium(parentMedium)}
       </div>
@@ -60,9 +60,9 @@ const Item = () => {
   };
 
   return (
-    <div className="item">
+    <div className="itemsingle">
       <h1>Item Details</h1>
-      <div className="item-details">
+      <div className="itemsingle-details">
         <h2>Item Information</h2>
         <p><strong>Name:</strong> {itemName}</p>
         <p><strong>Description:</strong> {itemDescription}</p>
@@ -79,7 +79,7 @@ const Item = () => {
 
       <div className="additional-details">
         <h2>Additional Information</h2>
-        <p><strong>Type:</strong> {TYPE}</p>
+        <p><strong>Type:</strong> {TYPE === "R" ? "Regular" : "Consumable"}</p>
         {TYPE === "C" && (
           <>
             <p><strong>Start Consumption Date:</strong> {START_CONSUMPTION_DATE ? new Date(START_CONSUMPTION_DATE).toLocaleString() : 'N/A'}</p>

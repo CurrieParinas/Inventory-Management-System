@@ -1,12 +1,18 @@
 @import "../../styles/variables.scss";
 
 .topbox {
+    width: 70vw;
+    background-color: #fff;
+    padding: 40px;
+    margin: 20px;
+    border-radius: 20px;
     .somediv {
+        color: $dark-color;
         display: flex;
         gap: 10px;
         h1 {
             margin-bottom: 20px;
-        }    
+        } 
     }
     .list {
         
@@ -21,6 +27,7 @@
                 display: flex;
                 align-items: center;
                 gap: 34px;
+                color: $dark-color;
                 .itemNumber {
                     display: flex;
                     align-items: center;
@@ -40,22 +47,23 @@
                 
             }
             .amount {
+                color: $dark-color;
                 display: flex;
                 justify-content: end;
                 min-width: 80px;
             }
 
             &:hover {
-                background-color: $soft-bg;
+                background-color: rgb(216, 216, 216);
             }
         }
     }
     .ctaTrackedItem {
+        margin-top: 10px;
         display: flex;
         justify-content: end;
         align-items: center;
         gap: 10px;
-        padding-top: 13%;
         .toTrackedItemLink {
             min-width: 110px;
             display: flex;
@@ -70,6 +78,9 @@
             border-radius: 8px;
             justify-content: center;
             align-items: center;
+            span {
+                color: #000000
+            }
         }
         .addTrackedItemButton {
             min-width: 110px;

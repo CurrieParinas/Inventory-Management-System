@@ -12,8 +12,14 @@ import {barChartTrackedItemsAdded, barChartUntrackedItemsAdded} from "../../side
 const Home = () => {
   return (
     <div className='home'>
-        <div className="box box1" style={{background: 'linear-gradient(to right, #70c6cf, #73a9fa)'}}>
+        <div className="box box1">
             <RecentTitle/>
+        </div>
+        <div className="box box4" >
+            <TopBox/>
+        </div>
+        <div className="box box5">
+            <Unt/>
         </div>
         <div className="box box2">
             <Location/>
@@ -21,23 +27,16 @@ const Home = () => {
         <div className="box box3">
             <Medium/>
         </div>
-        <div className="box box4" >
-            
-            <TopBox/>
-        </div>
-        <div className="box box5">
-            <Unt/>
-        </div>
-        <div className="box box6">
+        
+        {/* <div className="box box6">
             <Frequency {...barChartTrackedItemsAdded}/>
         </div>
         <div className="box box7">
             <Piechart/>
         </div>
         <div className="box box8">
-            
         <Frequency {...barChartUntrackedItemsAdded}/>
-        </div>
+        </div> */}
     </div>
   )
 }

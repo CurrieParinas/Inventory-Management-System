@@ -1,16 +1,22 @@
 @import "../../styles/variables.scss";
 
 .unt {
+    width: 70vw;
+    background-color: #fff;
+    padding: 40px;
+    margin: 20px;
+    border-radius: 20px;
+    
     .somediv {
+        color: $dark-color;
         display: flex;
         gap: 10px;
         h1 {
             margin-bottom: 20px;
-        }    
+        } 
     }
-
+    
     .list {
-        
         .listItem {
             display: flex;
             justify-content: space-between;
@@ -22,6 +28,8 @@
                 display: flex;
                 align-items: center;
                 gap: 34px;
+                color: $dark-color;
+                
                 .itemNumber {
                     display: flex;
                     align-items: center;
@@ -29,44 +37,30 @@
                     font-size: 28px;
                     font-weight: 200;
                 }
+                
                 .trackedItemName {
                     font-size: 20px;
                     font-weight: 700;
                 }
+                
                 .subtext {
                     font-size: 13px;
                     font-weight: 300;
                 }
             }
-            .amount {
-                min-width: 65px;
-            }
+
             &:hover {
-                background-color: $soft-bg;
+                background-color: rgb(216, 216, 216);
             }
         }
     }
+    
     .ctaTrackedItem {
+        margin-top: 10px;
         display: flex;
         justify-content: end;
         align-items: center;
-        gap: 10px;
-        padding-top: 18.5%;
-        .toTrackedItemLink {
-            min-width: 110px;
-            display: flex;
-            cursor: pointer;
-            font-size: 13px;
-            line-height: 20px;
-            font-weight: 600;
-            padding: 12px 22px;
-            border: none;
-            transition: box-shadow 0.2s ease 0s, -ms-transform 0.1s ease 0s, -webkit-transform 0.1s ease 0s, transform 0.1s ease 0s;
-            border: 1px solid #6c7485;
-            border-radius: 8px;
-            justify-content: center;
-            align-items: center;
-        }
+        gap: 10px;     
         .addTrackedItemButton {
             min-width: 110px;
             display: flex;
@@ -79,10 +73,10 @@
             padding: 12px 22px;
             border: none;
             transition: box-shadow 0.2s ease 0s, -ms-transform 0.1s ease 0s, -webkit-transform 0.1s ease 0s, transform 0.1s ease 0s;
-            background: linear-gradient(to right,#70c6cf,#73a9fa);
+            background: linear-gradient(to right, #70c6cf, #73a9fa);
             justify-content: center;
             align-items: center;
-        
+            
             button {
                 font-family: "Poppins", sans-serif;
                 font-weight: 500;
@@ -90,9 +84,7 @@
                 background: none;
                 border: none;
                 cursor: pointer;
-
             }
-        
         }
     }
 }
