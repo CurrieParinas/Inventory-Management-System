@@ -32,19 +32,6 @@ const Location = () => {
       fetchLocations();
     }, []);
 
-    const fetchLocationImage = async (locationId) => {
-      try {
-        const response = await fetch(`http://localhost:8080/inventory/location/showImage/${locationId}`);
-        if (!response.ok) {
-          throw new Error('Failed to fetch image');
-        }
-        const imageData = await response.blob();
-        return URL.createObjectURL(imageData);
-      } catch (error) {
-        console.error('Error fetching image:', error);
-      }
-    };
-
     const handleSubmit = async (e) => {
       e.preventDefault();
     
@@ -99,7 +86,7 @@ const Location = () => {
 
     const columns = [
         { 
-          field: 'ITEM_LOCATION_ID', 
+          field: 'LOCATION_ID', 
           headerName: 'ID', 
           width: 90,
           headerAlign: 'center',
@@ -194,8 +181,7 @@ const Location = () => {
             key={item.LOCATION_ID}
             itemId={item.LOCATION_ID}
             item={item} 
-            type="location" 
-            fetchCodeImage={() => fetchLocationImage(item.LOCATION_ID)} 
+            type="location"
             className="locations"/>
         ))}
         {open && <AddItem

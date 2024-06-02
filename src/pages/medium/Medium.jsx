@@ -33,19 +33,6 @@ const Medium = () => {
       fetchMediums();
     }, []);
 
-    const fetchMediumImage = async (mediumId) => {
-      try {
-        const response = await fetch(`http://localhost:8080/inventory/medium/showImage/${mediumId}`);
-        if (!response.ok) {
-          throw new Error('Failed to fetch image');
-        }
-        const imageData = await response.blob();
-        return URL.createObjectURL(imageData);
-      } catch (error) {
-        console.error('Error fetching image:', error);
-      }
-    };
-
     const handleSubmit = async (e) => {
       e.preventDefault();
     
@@ -118,7 +105,7 @@ const Medium = () => {
 
     const columns = [
         { 
-          field: 'ITEM_MEDIUM_ID', 
+          field: 'MEDIUM_ID', 
           headerName: 'ID', 
           width: 90,
           headerAlign: 'center',
@@ -208,7 +195,6 @@ const Medium = () => {
                 itemId={item.MEDIUM_ID}
                 item={item}
                 type="medium" 
-                fetchCodeImage={fetchMediumImage} 
                 className="mediums"/>
         ))}
         {open && <AddItem 

@@ -4,7 +4,10 @@ import './qrcodes.scss'
 import icon from '../../assets/qr-code.svg'
 
 function Qrcodes() {
-  const[items, setItems]=useState([])
+  const [items, setItems]=useState([])
+  const [mediums, setMediums]=useState([])
+  const [itemqrcodes, setItemQRcodes] = useState({});
+  const [mediumqrcodes, setMediumQRcodes] = useState({});
 
   const fetchItems = async () => {
     try {
@@ -19,23 +22,93 @@ function Qrcodes() {
     }
   };
 
-  const fetchQRCode = async (itemId) => {
+  const fetchMediums = async () => {
     try {
-      const response = await fetch(`http://localhost:8080/inventory/item/showQR/${itemId}`);
+      const response = await fetch('http://localhost:8080/inventory/medium/all');
       if (!response.ok) {
-        throw new Error('Failed to fetch QR code');
+        throw new Error('Failed to fetch mediums');
       }
-      const blob = await response.blob();
-      return URL.createObjectURL(blob);
+      const data = await response.json();
+      setMediums(data);
     } catch (error) {
-      console.error('Error fetching QR code:', error);
-      return null;
+      console.error('Error fetching mediums:', error);
     }
+  };
+
+  const fetchItemQRcodes = async () => {
+    const qrcodePromises = items.map(async (item) => {
+      try {
+        const response = await fetch(`http://localhost:8080/inventory/item/showQR/${item.ITEM_ID}`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch QR code');
+        }
+        const arrayBuffer = await response.arrayBuffer();
+        const base64String = btoa(
+          new Uint8Array(arrayBuffer).reduce(
+            (data, byte) => data + String.fromCharCode(byte),
+            ''
+          )
+        );
+        return { itemId: item.ITEM_ID, base64String };
+      } catch (error) {
+        console.error('Error fetching QR code:', error);
+        return { itemId: item.ITEM_ID, base64String: null };
+      }
+    });
+
+    const resolvedQRcodes = await Promise.all(qrcodePromises);
+    const qrcodeMap = resolvedQRcodes.reduce((acc, qrcode) => {
+      acc[qrcode.itemId] = qrcode.base64String;
+      return acc;
+    }, {});
+    setItemQRcodes(qrcodeMap);
+  };
+
+  const fetchMediumQRcodes = async () => {
+    const qrcodePromises = mediums.map(async (medium) => {
+      try {
+        const response = await fetch(`http://localhost:8080/inventory/medium/showQR/${medium.MEDIUM_ID}`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch QR code');
+        }
+        const arrayBuffer = await response.arrayBuffer();
+        const base64String = btoa(
+          new Uint8Array(arrayBuffer).reduce(
+            (data, byte) => data + String.fromCharCode(byte),
+            ''
+          )
+        );
+        return { mediumId: medium.MEDIUM_ID, base64String };
+      } catch (error) {
+        console.error('Error fetching QR code:', error);
+        return { mediumId: medium.MEDIUM_ID, base64String: null };
+      }
+    });
+
+    const resolvedQRcodes = await Promise.all(qrcodePromises);
+    const qrcodeMap = resolvedQRcodes.reduce((acc, qrcode) => {
+      acc[qrcode.mediumId] = qrcode.base64String;
+      return acc;
+    }, {});
+    setMediumQRcodes(qrcodeMap);
   };
 
   useEffect(() => {
     fetchItems();
+    fetchMediums();
   }, []);
+
+  useEffect(() => {
+    if (items.length > 0) {
+      fetchItemQRcodes();
+    }
+  }, [items])
+
+  useEffect(() => {
+    if (mediums.length > 0) {
+      fetchMediumQRcodes();
+    }
+  }, [mediums])
     
   return (
     <div className='qrcode'>
@@ -48,7 +121,11 @@ function Qrcodes() {
         <div className="qrcodecontainer">
         {items.map((item) => (
             { ...items, id: item.ITEM_ID },
-            <Card key={item.ITEM_ID} itemId={item.ITEM_ID} item={item} type="qrcode" fetchCodeImage={fetchQRCode} className="qrcodes"/>
+            <Card key={item.ITEM_ID} itemId={item.ITEM_ID} item={item} type="qrcode" codeImage={itemqrcodes[item.ITEM_ID]} className="qrcodes"/>
+        ))}
+        {mediums.map((medium) => (
+            { ...mediums, id: medium.MEDIUM_ID },
+            <Card key={medium.MEDIUM_ID} itemId={medium.MEDIUM_ID} item={medium} type="qrcode" codeImage={mediumqrcodes[medium.MEDIUM_ID]} className="qrcodes"/>
         ))}
         </div>
     </div>

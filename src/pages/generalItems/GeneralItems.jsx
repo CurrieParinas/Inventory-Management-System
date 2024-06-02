@@ -12,9 +12,7 @@ const GeneralItems = () => {
     DESCRIPTION: '',
     BRAND: '',
     CODENAME: '',
-    IMAGE: '',
-    START_CONSUMPTION_DATE: '',
-    END_CONSUMPTION_DATE: ''
+    IMAGE: ''
   });
 
   const fetchItems = async () => {
@@ -33,19 +31,6 @@ const GeneralItems = () => {
   useEffect(() => {
     fetchItems();
   }, []);
-
-  const fetchItemImage = async (itemId) => {
-    try {
-      const response = await fetch(`http://localhost:8080/inventory/item/showImage/${itemId}`);
-      if (!response.ok) {
-        throw new Error('Failed to fetch image');
-      }
-      const imageData = await response.blob();
-      return URL.createObjectURL(imageData);
-    } catch (error) {
-      console.error('Error fetching image:', error);
-    }
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -97,9 +82,7 @@ const GeneralItems = () => {
       DESCRIPTION: '',
       BRAND: '',
       CODENAME: '',
-      IMAGE: '',
-      START_CONSUMPTION_DATE: '',
-      END_CONSUMPTION_DATE: ''
+      IMAGE: ''
     });
   };
 
@@ -110,7 +93,7 @@ const GeneralItems = () => {
 
   const columns = [
     { 
-      field: 'ITEM_MEDIUM_ID', 
+      field: 'ITEM_ID', 
       headerName: 'ID', 
       width: 90,
       headerAlign: 'center',
@@ -190,24 +173,6 @@ const GeneralItems = () => {
       align: 'center',
       placeholder: 'Enter quantity'
     },
-    {
-        field: 'START_CONSUMPTION_DATE',
-        headerName: 'Start Consumption Date',
-        type: 'date',
-        width: 130,
-        editable: true,
-        headerAlign: 'center',
-        align: 'center',
-    },
-    {
-        field: 'END_CONSUMPTION_DATE',
-        headerName: 'End Consumption Date',
-        type: 'date',
-        width: 130,
-        editable: true,
-        headerAlign: 'center',
-        align: 'center',
-    },
   ];
 
   return (
@@ -227,7 +192,6 @@ const GeneralItems = () => {
           key={item.ITEM_ID} 
           itemId={item.ITEM_ID} 
           item={item} type="general-item" 
-          fetchCodeImage={() => fetchItemImage(item.ITEM_ID)} 
           className="general-items" />
         ))}
         {open && <AddItem 
