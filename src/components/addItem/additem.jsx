@@ -3,6 +3,11 @@ import './additem.scss';
 
 const AddItem = (props) => {
   const modalRef = useRef();
+  const locationInputRef = useRef();
+  const mediumInputRef = useRef();
+  const allMediumInputRef = useRef();
+  const itemNameInputRef = useRef();
+
   const [isTracked, setIsTracked] = useState(false);
   const [itemType, setItemType] = useState('regular');
   const [locations, setLocations] = useState([]);
@@ -28,6 +33,18 @@ const AddItem = (props) => {
   const handleClickOutside = (event) => {
     if (modalRef.current && !modalRef.current.contains(event.target)) {
       handleClose();
+    }
+    if (locationInputRef.current && !locationInputRef.current.contains(event.target)) {
+      setShowLocationSuggestions(false);
+    }
+    if (mediumInputRef.current && !mediumInputRef.current.contains(event.target)) {
+      setShowMediumSuggestions(false);
+    }
+    if (allMediumInputRef.current && !allMediumInputRef.current.contains(event.target)) {
+      setShowAllMediumSuggestions(false);
+    }
+    if (itemNameInputRef.current && !itemNameInputRef.current.contains(event.target)) {
+      setShowItemNameSuggestions(false);
     }
   };
 
@@ -134,7 +151,7 @@ const AddItem = (props) => {
       );
       setFilteredLocations(filtered);
     } else {
-      setFilteredLocations([]);
+      setFilteredLocations(locations);
     }
   };
 
@@ -158,7 +175,7 @@ const AddItem = (props) => {
       );
       setFilteredStorageMediums(filtered);
     } else {
-      setFilteredStorageMediums([]);
+      setFilteredStorageMediums(storageMediums);
     }
   };
 
@@ -182,7 +199,7 @@ const AddItem = (props) => {
       );
       setFilteredAllMediums(filtered);
     } else {
-      setFilteredAllMediums([]);
+      setFilteredAllMediums(allMediums);
     }
   };
 
@@ -206,7 +223,7 @@ const AddItem = (props) => {
       );
       setFilteredItemNames(filtered);
     } else {
-      setFilteredItemNames([]);
+      setFilteredItemNames(itemNames);
     }
   };
 
@@ -255,12 +272,13 @@ const AddItem = (props) => {
               <div className="item" key={column.field}>
                 <label htmlFor={column.field}>{column.headerName}: </label>
                 {column.field === 'PARENT_LOCATION' ? (
-                  <div className="auto-suggest-container">
+                  <div className="auto-suggest-container" ref={locationInputRef}>
                     <input
                       type="text"
                       name={column.field}
                       value={props.formData[column.field] !== locationId ? props.formData[column.field] : locationName}
                       onChange={handleLocationChange}
+                      onFocus={handleLocationChange}
                       placeholder={column.placeholder}
                       autoComplete="off"
                     />
@@ -278,12 +296,13 @@ const AddItem = (props) => {
                     )}
                   </div>
                 ) : column.field === 'PARENT_MEDIUM' ? (
-                  <div className="auto-suggest-container">
+                  <div className="auto-suggest-container" ref={mediumInputRef}>
                     <input
                       type="text"
                       name={column.field}
                       value={props.formData[column.field] !== mediumId ? props.formData[column.field] : mediumName}
                       onChange={handleMediumChange}
+                      onFocus={handleMediumChange}
                       placeholder={column.placeholder}
                       autoComplete="off"
                     />
@@ -300,13 +319,14 @@ const AddItem = (props) => {
                       </ul>
                     )}
                   </div>
-                ) : column.field === 'MEDIUM_NAME' ? (
-                  <div className="auto-suggest-container">
+                ) : column.field === 'MEDIUM' ? (
+                  <div className="auto-suggest-container" ref={allMediumInputRef}>
                     <input
                       type="text"
                       name={column.field}
-                      value={props.formData["MEDIUM"] !== mediumId ? props.formData["MEDIUM"] : mediumName}
+                      value={props.formData[column.field] !== mediumId ? props.formData[column.field] : mediumName}
                       onChange={handleAllMediumChange}
+                      onFocus={handleAllMediumChange}
                       placeholder={column.placeholder}
                       autoComplete="off"
                     />
@@ -323,14 +343,15 @@ const AddItem = (props) => {
                       </ul>
                     )}
                   </div>
-                ) : column.field === 'NAME' && (props.className === 'trackeditems' || props.className === 'untrackeditems') ? (
-                  <div className="auto-suggest-container">
+                ) : column.field === 'ITEM' && (props.className === 'trackeditems' || props.className === 'untrackeditems') ? (
+                  <div className="auto-suggest-container" ref={itemNameInputRef}>
                     <input
                       type="text"
                       name={column.field}
-                      value={props.formData["ITEM"] !== itemId ? props.formData["ITEM"] : itemName}
+                      value={props.formData[column.field] !== itemId ? props.formData[column.field] : itemName}
                       onChange={handleItemNameChange}
-                      placeholder={column.placeholder}
+                      onFocus={handleItemNameChange}
+                      placeholder={column.placeholder }
                       autoComplete="off"
                     />
                     {showItemNameSuggestions && filteredItemNames.length > 0 && (

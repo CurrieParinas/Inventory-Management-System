@@ -199,7 +199,8 @@ const Location = () => {
             className="locations"/>
         ))}
         {open && <AddItem
-            slug="Location" 
+            className="Location"
+            slug="Location"
             columns={columns} 
             setOpen={setOpen} 
             formData={formData} 
@@ -208,7 +209,7 @@ const Location = () => {
             handleImageChange={handleImageChange} 
             resetFormData={resetFormData} 
             setFormData={setFormData}
-            className="Location"/>}
+             />}
       </div>
     </div>
   )

@@ -78,8 +78,6 @@ const GeneralItem = () => {
         throw new Error('Failed to update item');
       }
 
-      console.log(formDataWithImage)
-
       const newImageUrl = await fetchItemImage(id);
       setImage(newImageUrl);
       setNewImage(null);
@@ -103,6 +101,7 @@ const GeneralItem = () => {
     const selectedFile = e.target.files[0];
     if (selectedFile && selectedFile.size <= (2 * 1024 * 1024)) { // Max size is 2MB
       setNewImage({ IMAGE: e.target.files[0] });
+      setImage(URL.createObjectURL(selectedFile)); // Display the new image immediately
     } else {
       alert('File size exceeds the maximum allowed limit (2MB).');
       // Optionally, you can clear the file input field

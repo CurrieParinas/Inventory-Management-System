@@ -3,7 +3,6 @@ import "./untrack.scss"
 import openedBox from "../../assets/open-box.svg"
 import DataTable from '../../components/datatable/dataTable'
 import AddItem from '../../components/addItem/additem'
-import { itemRowsUntracked } from '../../sidebar'
 
 const Untrack = () => {
     const [open, setOpen] = useState(false);
@@ -106,7 +105,7 @@ const Untrack = () => {
           placeholder: 'Enter ID'
         },
         {
-          field: 'NAME',
+          field: 'ITEM',
           headerName: 'Name of Item',
           width: 150,
           editable: true,
@@ -123,7 +122,7 @@ const Untrack = () => {
           align: 'center',
         },
         {
-            field: 'MEDIUM_NAME',
+            field: 'MEDIUM',
             headerName: 'Medium',
             type: 'text',
             width: 150,
@@ -142,6 +141,17 @@ const Untrack = () => {
             align: 'center',
           },
       ];
+
+      const adjustedColumns = columns.map(column => {
+        if (column.field === 'MEDIUM') {
+            return { ...column, field: 'MEDIUM_NAME' };
+        } else if (column.field === 'ITEM') {
+            return { ...column, field: 'NAME' };
+        } else {
+            return column;
+        }
+    });
+
     return (
     <div className='untrackedItems'>
         <div className="info">
@@ -153,7 +163,7 @@ const Untrack = () => {
         </div>
         <DataTable 
             slug="untrackedItems" 
-            columns={columns.filter(column => column.field !== 'IMAGE' && column.field !== 'UNTRACKED')} 
+            columns={adjustedColumns.filter(column => column.field !== 'IMAGE' && column.field !== 'UNTRACKED')} 
             rows={untrackedItems.map(row => ({ ...row, id: row.ITEM_MEDIUM_ID }))}
             handleRefresh={fetchUntrackedItems}
             />

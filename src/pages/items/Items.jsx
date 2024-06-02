@@ -116,7 +116,7 @@ const Items = () => {
           placeholder: 'Enter ID'
         },
         {
-          field: 'NAME',
+          field: 'ITEM',
           headerName: 'Name of Item',
           width: 120,
           editable: true,
@@ -133,7 +133,7 @@ const Items = () => {
             align: 'center',
           },
           {
-            field: 'MEDIUM_NAME',
+            field: 'MEDIUM',
             headerName: 'Medium',
             type: 'text',
             width: 150,
@@ -183,6 +183,16 @@ const Items = () => {
           },
       ];
 
+      const adjustedColumns = columns.map(column => {
+        if (column.field === 'MEDIUM') {
+            return { ...column, field: 'MEDIUM_NAME' };
+        } else if (column.field === 'ITEM') {
+            return { ...column, field: 'NAME' };
+        } else {
+            return column;
+        }
+    });
+
     return (
         <div className='trackedItems'>
             <div className="info">
@@ -194,7 +204,7 @@ const Items = () => {
             </div>
             <DataTable 
                 slug="trackeditems" 
-                columns={columns.filter(column => column.field !== 'IMAGE' && column.field !== 'TRACKED')} 
+                columns={adjustedColumns.filter(column => column.field !== 'IMAGE' && column.field !== 'TRACKED')} 
                 rows={trackedItems.map(row => ({ ...row, id: row.ITEM_MEDIUM_ID }))} 
                 handleRefresh={fetchTrackedItems}
             />

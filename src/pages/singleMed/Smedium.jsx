@@ -60,7 +60,7 @@ const SMedium = () => {
 
     const fetchAllMediums = async () => {
       try {
-        const response = await fetch(`http://localhost:8080/inventory/medium/parentLocation/${locationId}`);
+        const response = await fetch(`http://localhost:8080/inventory/medium/all`);
         if (!response.ok) {
           throw new Error('Failed to fetch all mediums');
         }
@@ -147,6 +147,7 @@ const SMedium = () => {
     const selectedFile = e.target.files[0];
     if (selectedFile && selectedFile.size <= (2 * 1024 * 1024)) { // Max size is 2MB
       setNewImage({ IMAGE: e.target.files[0] });
+      setImage(URL.createObjectURL(selectedFile));
     } else {
       alert('File size exceeds the maximum allowed limit (2MB).');
       // Optionally, you can clear the file input field
@@ -218,7 +219,8 @@ const SMedium = () => {
             <p><strong>ID:</strong> <h4 style={{ fontWeight: 400 }}>{medium.MEDIUM_ID}</h4></p>
             <p><strong>Name:</strong> {isEditing ? <input type="text" name="NAME" value={medium.NAME} onChange={handleInputChange} /> : <h4 style={{ fontWeight: 400 }}>{medium.NAME}</h4>}</p>
             <p><strong>Description:</strong> {isEditing ? <input type="text" name="DESCRIPTION" value={medium.DESCRIPTION} onChange={handleInputChange} /> : <h4 style={{ fontWeight: 400 }}>{medium.DESCRIPTION}</h4>}</p>
-            <p><strong>Parent Location ID:</strong> {isEditing ? (
+            <p><strong>Parent Location ID:</strong> 
+            {isEditing ? (
               <div className="auto-suggest-container-1">
                 <input
                   type="text"

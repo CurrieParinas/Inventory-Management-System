@@ -20,11 +20,13 @@ const style = {
     width: 400,
     bgcolor: 'background.paper',
     boxShadow: 24,
+    borderRadius: '10px',
     p: 4,
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between'
   };
+  
   
 
 
@@ -32,7 +34,6 @@ const DataTable = (props) => {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [quantity, setQuantity] = useState(0);
-  const [selectedRow, setSelectedRow] = useState(null);
   const [rowID,setRowID] = useState();
 
   const handleOpen = (row,id) => {
@@ -114,6 +115,7 @@ const DataTable = (props) => {
       }
 
       props.handleRefresh();
+      setOpen(false);
     } catch (error) {
         console.error('Error adding quantity:', error);
     }
@@ -130,6 +132,7 @@ const DataTable = (props) => {
       }
 
       props.handleRefresh();
+      setOpen(false);
     } catch (error) {
         console.error('Error subtracting quantity:', error);
     }
@@ -176,7 +179,7 @@ const DataTable = (props) => {
   };
 
   const columns = props.columns.map((col) => 
-    col.field === 'QUANTITY' ? [col, quantityEditColumn] : col
+    col.field === 'QUANTITY' && props.slug !== 'archiveditems' ? [col, quantityEditColumn] : col
   ).flat();
 
 
@@ -226,6 +229,7 @@ const DataTable = (props) => {
             fullWidth
             variant="outlined"
             margin="normal"
+            style={{paddingBottom: "10px"}}
           />
           </>
           <>
