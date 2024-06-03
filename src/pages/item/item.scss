@@ -73,5 +73,84 @@
       font-size: 1.5rem;
       font-family: 'Roboto', sans-serif;
     }
+  
+    input, select {
+      width: calc(100% - 30px);
+      padding: 10px;
+      margin: 10px;
+      font-size: 1rem;
+      border: 1px solid #cccccc;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: background-color 0.3s ease, border 0.3s ease;
+      font-family: 'Roboto', sans-serif;
+      
+      &:focus {
+        background-color: #f0f0f0;
+        border-color: #70c6cf;
+      }
+    }
+  
+    button {
+      display: inline-block;
+      padding: 10px 20px;
+      margin: 10px;
+      font-size: 1rem;
+      color: #ffffff;
+      background-color: #70c6cf;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  
+      &:hover {
+        background-color: #58b2b9;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+      }
+  
+      &:focus {
+        outline: none;
+      }
+    }
+  
+    .auto-suggest-container {
+      position: relative;
+      width: 100%;
+      
+  
+      input {
+        width: 99%;
+      }
+      
+      .suggestions {
+        position: absolute;
+        z-index: 1000;
+        top: 100%;
+        left: 0;
+        right: 0;
+        border: 1px solid #cccccc;
+        background-color: #ffffff;
+        max-height: 150px;
+        overflow-y: auto;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        border-radius: 5px;
+        margin-left: 10px;
+        margin-top: -10px;
+      }
+  
+      .suggestions li {
+        padding: 8px;
+        cursor: pointer;
+        font-family: "Roboto", sans-serif;
+        color: #333333;
+  
+        &:hover {
+          background-color: rgba(112, 198, 207, 0.5);
+        }
+      }
+    }
   }
   
