@@ -118,15 +118,25 @@ function Qrcodes() {
                 <h1 style={{ marginLeft: "-10px" }}>QR Codes</h1>
             </div>
         </div>
-        <div className="qrcodecontainer">
-        {items.map((item) => (
-            { ...items, id: item.ITEM_ID },
-            <Card key={item.ITEM_ID} itemId={item.ITEM_ID} item={item} type="qrcode" codeImage={itemqrcodes[item.ITEM_ID]} className="qrcodes"/>
-        ))}
-        {mediums.map((medium) => (
-            { ...mediums, id: medium.MEDIUM_ID },
-            <Card key={medium.MEDIUM_ID} itemId={medium.MEDIUM_ID} item={medium} type="qrcode" codeImage={mediumqrcodes[medium.MEDIUM_ID]} className="qrcodes"/>
-        ))}
+        <div className="qrcodecontainer" style={{display:'flex', flexDirection: 'column'}}>
+            <div className="qrcodecontainer1" style={{display:'flex', flexDirection:'column'}}>
+                <h2 style={{marginBottom: '20px'}}>All Available Items: </h2>
+                <div className="itemQrContainer" style={{display:'flex',justifyContent:'center', flexDirection:'row', flexWrap: 'wrap', gap: '30px'}}>
+                    {items.map((item) => (
+                    { ...items, id: item.ITEM_ID },
+                    <Card key={item.ITEM_ID} itemId={item.ITEM_ID} item={item} type="qrcode" codeImage={itemqrcodes[item.ITEM_ID]} className="qrcodes"/>
+                    ))}
+                </div>
+            </div>
+            <div className="qrcodecontainer2" style={{display:'flex', flexDirection:'column'}}>
+                <h2 style={{marginBottom: '20px'}}>All Available Mediums: </h2>
+                <div className="mediumQrContainer" style={{display:'flex',justifyContent:'center', flexDirection:'row', flexWrap: 'wrap', gap: '30px'}}>
+                    {mediums.map((medium) => (
+                    { ...mediums, id: medium.MEDIUM_ID },
+                    <Card key={medium.MEDIUM_ID} itemId={medium.MEDIUM_ID} item={medium} type="qrcode" codeImage={mediumqrcodes[medium.MEDIUM_ID]} className="qrcodes"/>
+                    ))}
+                </div>
+            </div>
         </div>
     </div>
   )

@@ -146,9 +146,11 @@ const DataTable = (props) => {
     renderCell: (params) => {
       return (
         <div className="action" style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: "5px", marginTop: "13px" }}>
+          {props.slug !== "archiveditems" && ( 
           <button onClick={() => handleNavigate(params.row.id)} style={{ background: "none", border: "none" }}>
             <img src={EditIcon} style={{ width: "25px", height: "25px" }} />
           </button>
+        )}
           <button className="delete" onClick={() => handleDelete(params.row.id)} style={{ background: "none", border: "none" }}>
                 <img src={deleteIcon} style={{ width: "25px", height: "25px" }} />
             </button>

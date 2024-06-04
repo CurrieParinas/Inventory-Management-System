@@ -91,27 +91,32 @@
       }
     }
   
-    button {
-      display: inline-block;
-      padding: 10px 20px;
-      margin: 10px;
-      font-size: 1rem;
-      color: #ffffff;
-      background-color: #70c6cf;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      transition: background-color 0.3s ease, box-shadow 0.3s ease;
-  
-      &:hover {
-        background-color: #58b2b9;
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-      }
-  
-      &:focus {
-        outline: none;
-      }
+    .actions {
+        display: flex;
+        flex-direction: row;
+        justify-content: end;
+        button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 1rem;
+            color: #ffffff;
+            background: linear-gradient(to right,#70c6cf,#73a9fa);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        
+            &:hover {
+              background-color: #58b2b9;
+              box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+            }
+        
+            &:focus {
+              outline: none;
+            }
+          }
     }
   
     .auto-suggest-container {

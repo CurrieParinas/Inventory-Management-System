@@ -5,6 +5,8 @@ import './smedium.scss';
 const SMedium = () => {
   const { id } = useParams(); // Extracting the id from the URL
   const [medium, setMedium] = useState(null);
+  const [oMedium, setOMedium] = useState(null);
+  const [oImageMedium, setOImageMedium] = useState(null);
   const [locationId, setLocationId] = useState('');
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -30,10 +32,12 @@ const SMedium = () => {
         }
         const data = await response.json();
         setMedium(data);
+        setOMedium(data);
 
         // Fetch medium image
         const imageUrl = await fetchMediumImage(id);
         setImage(imageUrl);
+        setOImageMedium(imageUrl);
       } catch (error) {
         setError(error);
       } finally {
@@ -60,7 +64,7 @@ const SMedium = () => {
 
     const fetchAllMediums = async () => {
       try {
-        const response = await fetch(`http://localhost:8080/inventory/medium/all`);
+        const response = await fetch(`http://localhost:8080/inventory/medium/parentLocation/${medium.PARENT_LOCATION.LOCATION_ID}/mediumId/${id}`);
         if (!response.ok) {
           throw new Error('Failed to fetch all mediums');
         }
@@ -136,6 +140,8 @@ const SMedium = () => {
   const handleCancelClick = () => {
     setNewImage(null);
     setIsEditing(false);
+    setMedium(oMedium);
+    setImage(oImageMedium);
   };
 
   const handleInputChange = (e) => {

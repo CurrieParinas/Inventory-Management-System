@@ -6,14 +6,16 @@ const SingleLocation = () => {
   const { id } = useParams(); // Extracting the id from the URL
   const [location, setLocation] = useState(null);
   const [image, setImage] = useState(null);
+  const [origImage, setOrigImage] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [isEditing, setIsEditing] = useState(false); // State to manage edit mode
+  const [isEditing, setIsEditing] = useState(false);
   const [newImage, setNewImage] = useState(null);
   const [parentLocations, setParentLocations] = useState([]);
   const [filteredParentLocations, setFilteredParentLocations] = useState([]);
   const [showLocationSuggestions, setShowLocationSuggestions] = useState(false);
   const [parentLocationName, setParentLocationName] = useState('');
+  const [originalLocation, setOriginalLocation] = useState(null); // Store original location data
 
   useEffect(() => {
     // Fetch location details from the API
@@ -24,14 +26,11 @@ const SingleLocation = () => {
           throw new Error('Network response was not ok');
         }
         const data = await response.json();
-        if (data.PARENT_LOCATION) {
-          data.PARENT_LOCATION = data.PARENT_LOCATION.LOCATION_ID;
-        }
         setLocation(data);
-
-        // Fetch location image
+        setOriginalLocation(data); // Set original location data
         const imageUrl = await fetchLocationImage(id);
         setImage(imageUrl);
+        setOrigImage(imageUrl);
       } catch (error) {
         setError(error);
       } finally {
@@ -40,13 +39,13 @@ const SingleLocation = () => {
     };
 
     fetchLocation();
-  }, [id]);
+    }, [id]);
 
   useEffect(() => {
     // Fetch parent locations
     const fetchParentLocations = async () => {
       try {
-        const response = await fetch('http://localhost:8080/inventory/location/locationsWithNoParent');
+        const response = await fetch(`http://localhost:8080/inventory/location/availableLocationsForEdit/${id}`);
         if (!response.ok) {
           throw new Error('Failed to fetch parent locations');
         }
@@ -119,6 +118,8 @@ const SingleLocation = () => {
   const handleCancelClick = () => {
     setNewImage(null);
     setIsEditing(false);
+    setLocation(originalLocation);
+    setImage(origImage);
   };
 
   const handleInputChange = (e) => {

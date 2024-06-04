@@ -23,10 +23,10 @@ const Item = () => {
         setItemData(data);
         setEditedData({
           MEDIUM: data.MEDIUM.MEDIUM_ID,
-          QUANTITY: data.QUANTITY,
+          QUANTITY: data.QUANTITY ? data.QUANTITY : '',
           TYPE: data.TYPE,
-          START_CONSUMPTION_DATE: data.START_CONSUMPTION_DATE ? data.START_CONSUMPTION_DATE.split('T')[0] : '',
-          END_CONSUMPTION_DATE: data.END_CONSUMPTION_DATE ? data.END_CONSUMPTION_DATE.split('T')[0] : ''
+          START_CONSUMPTION_DATE: data.START_CONSUMPTION_DATE ? data.START_CONSUMPTION_DATE : '',
+          END_CONSUMPTION_DATE: data.END_CONSUMPTION_DATE ? data.END_CONSUMPTION_DATE : ''
         });
       } catch (error) {
         console.error('Error fetching item data:', error);
@@ -95,8 +95,8 @@ const Item = () => {
       MEDIUM: itemData.MEDIUM.MEDIUM_ID,
       QUANTITY: itemData.QUANTITY,
       TYPE: itemData.TYPE,
-      START_CONSUMPTION_DATE: itemData.START_CONSUMPTION_DATE ? itemData.START_CONSUMPTION_DATE.split('T')[0] : '',
-      END_CONSUMPTION_DATE: itemData.END_CONSUMPTION_DATE ? itemData.END_CONSUMPTION_DATE.split('T')[0] : ''
+      START_CONSUMPTION_DATE: itemData.START_CONSUMPTION_DATE ? itemData.START_CONSUMPTION_DATE : '',
+      END_CONSUMPTION_DATE: itemData.END_CONSUMPTION_DATE ? itemData.END_CONSUMPTION_DATE : ''
     });
   };
 
@@ -212,12 +212,6 @@ const Item = () => {
         ) : (
           <p><strong>Type:</strong> {TYPE === "R" ? "Regular" : "Consumable"}</p>
         )}
-        {TYPE === "C" && (
-          <>
-            <p><strong>Start Consumption Date:</strong> {START_CONSUMPTION_DATE ? new Date(START_CONSUMPTION_DATE).toLocaleString() : 'N/A'}</p>
-            <p><strong>End Consumption Date:</strong> {END_CONSUMPTION_DATE ? new Date(END_CONSUMPTION_DATE).toLocaleString() : 'N/A'}</p>
-          </>
-        )}
         {editedData.TYPE === "C" && isEditing && (
           <>
             <p><strong>Start Consumption Date:</strong>
@@ -268,8 +262,8 @@ const Item = () => {
       <div className="actions">
         {isEditing ? (
           <>
-            <button className="save-button" onClick={handleSaveButtonClick}>Save</button>
             <button className="cancel-button" onClick={handleCancelButtonClick}>Cancel</button>
+            <button className="save-button" onClick={handleSaveButtonClick}>Save</button>
           </>
         ) : (
           <button className="edit-button" onClick={handleEditButtonClick}>Edit</button>

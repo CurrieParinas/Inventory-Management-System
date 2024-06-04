@@ -10,6 +10,9 @@ const GeneralItem = () => {
   const [error, setError] = useState(null);
   const [isEditing, setIsEditing] = useState(false); // State to manage edit mode
   const [newImage, setNewImage] = useState(null);
+  const [origItem, setOrigItem] = useState(null);
+  const [origImage, setOrigImage] = useState(null);
+
 
   useEffect(() => {
     // Fetch item details from the API
@@ -21,10 +24,11 @@ const GeneralItem = () => {
         }
         const data = await response.json();
         setItem(data);
-
+        setOrigItem(data);
         // Fetch item image
         const imageUrl = await fetchItemImage(id);
         setImage(imageUrl);
+        setOrigImage(imageUrl);
       } catch (error) {
         setError(error);
       } finally {
@@ -90,6 +94,8 @@ const GeneralItem = () => {
   const handleCancelClick = () => {
     setNewImage(null);
     setIsEditing(false);
+    setItem(origItem);
+    setImage(origImage);
   };
 
   const handleInputChange = (e) => {
