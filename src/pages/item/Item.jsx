@@ -22,11 +22,11 @@ const Item = () => {
         const data = await response.json();
         setItemData(data);
         setEditedData({
-          itemMedium: data.MEDIUM.NAME,
-          quantity: data.QUANTITY,
-          type: data.TYPE,
-          startConsumptionDate: data.START_CONSUMPTION_DATE ? data.START_CONSUMPTION_DATE.split('T')[0] : '',
-          endConsumptionDate: data.END_CONSUMPTION_DATE ? data.END_CONSUMPTION_DATE.split('T')[0] : ''
+          MEDIUM: data.MEDIUM.MEDIUM_ID,
+          QUANTITY: data.QUANTITY,
+          TYPE: data.TYPE,
+          START_CONSUMPTION_DATE: data.START_CONSUMPTION_DATE ? data.START_CONSUMPTION_DATE.split('T')[0] : '',
+          END_CONSUMPTION_DATE: data.END_CONSUMPTION_DATE ? data.END_CONSUMPTION_DATE.split('T')[0] : ''
         });
       } catch (error) {
         console.error('Error fetching item data:', error);
@@ -55,27 +55,26 @@ const Item = () => {
   }
 
   const { ITEM, MEDIUM, QUANTITY, TYPE, START_CONSUMPTION_DATE, END_CONSUMPTION_DATE} = itemData;
-  const { NAME: itemName, DESCRIPTION: itemDescription, BRAND: itemBrand } = ITEM;
-  const { NAME: mediumName, DESCRIPTION: mediumDescription, PARENT_LOCATION, PARENT_MEDIUM } = MEDIUM;
+  const { ITEM_ID: itemId, NAME: itemName, DESCRIPTION: itemDescription, BRAND: itemBrand } = ITEM;
+  const { MEDIUM_ID: mediumId, NAME: mediumName, DESCRIPTION: mediumDescription, PARENT_LOCATION, PARENT_MEDIUM } = MEDIUM;
 
   const handleEditButtonClick = () => {
     setIsEditing(true);
   };
 
   const handleSaveButtonClick = async () => {
+    console.log(editedData)
+    const formData = new FormData();
+    Object.entries(editedData).forEach(([key, value]) => {
+      formData.append(key, value);
+    });
+
+    console.log(formData)
+
     try {
-      const response = await fetch(`http://localhost:8080/inventory/itemMedium/${id}`, {
+      const response = await fetch(`http://localhost:8080/inventory/itemMedium/update/${id}`, {
         method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          medium: editedData.itemMedium,
-          quantity: editedData.quantity,
-          type: editedData.type,
-          startConsumptionDate: editedData.startConsumptionDate,
-          endConsumptionDate: editedData.endConsumptionDate
-        })
+        body: formData,
       });
 
       if (!response.ok) {
@@ -93,11 +92,11 @@ const Item = () => {
   const handleCancelButtonClick = () => {
     setIsEditing(false);
     setEditedData({
-      itemMedium: itemData.MEDIUM.NAME,
-      quantity: itemData.QUANTITY,
-      type: itemData.TYPE,
-      startConsumptionDate: itemData.START_CONSUMPTION_DATE ? itemData.START_CONSUMPTION_DATE.split('T')[0] : '',
-      endConsumptionDate: itemData.END_CONSUMPTION_DATE ? itemData.END_CONSUMPTION_DATE.split('T')[0] : ''
+      MEDIUM: itemData.MEDIUM.MEDIUM_ID,
+      QUANTITY: itemData.QUANTITY,
+      TYPE: itemData.TYPE,
+      START_CONSUMPTION_DATE: itemData.START_CONSUMPTION_DATE ? itemData.START_CONSUMPTION_DATE.split('T')[0] : '',
+      END_CONSUMPTION_DATE: itemData.END_CONSUMPTION_DATE ? itemData.END_CONSUMPTION_DATE.split('T')[0] : ''
     });
   };
 
@@ -117,11 +116,11 @@ const Item = () => {
     } else {
       setFilteredMediums([]);
     }
-    setEditedData({ ...editedData, itemMedium: input });
+    setEditedData({ ...editedData, MEDIUM: input });
   };
 
-  const handleMediumSelect = (mediumName) => {
-    setEditedData({ ...editedData, itemMedium: mediumName });
+  const handleMediumSelect = (mediumId) => {
+    setEditedData({ ...editedData, MEDIUM: mediumId });
     setShowMediumSuggestions(false);
   };
 
@@ -170,8 +169,8 @@ const Item = () => {
             <div className="auto-suggest-container">
               <input
                 type="text"
-                name="itemMedium"
-                value={editedData.itemMedium}
+                name="MEDIUM"
+                value={editedData.MEDIUM}
                 onChange={handleMediumChange}
               />
               {showMediumSuggestions && filteredMediums.length > 0 && (
@@ -179,7 +178,7 @@ const Item = () => {
                   {filteredMediums.map(medium => (
                     <li
                       key={medium.MEDIUM_ID}
-                      onClick={() => handleMediumSelect(medium.NAME)}
+                      onClick={() => handleMediumSelect(medium.MEDIUM_ID)}
                     >
                       {medium.NAME}
                     </li>
@@ -202,8 +201,8 @@ const Item = () => {
         {isEditing ? (
           <p><strong>Type:</strong>
             <select
-              name="type"
-              value={editedData.type}
+              name="TYPE"
+              value={editedData.TYPE}
               onChange={handleChange}
             >
               <option value="R">Regular</option>
@@ -219,21 +218,21 @@ const Item = () => {
             <p><strong>End Consumption Date:</strong> {END_CONSUMPTION_DATE ? new Date(END_CONSUMPTION_DATE).toLocaleString() : 'N/A'}</p>
           </>
         )}
-        {editedData.type === "C" && isEditing && (
+        {editedData.TYPE === "C" && isEditing && (
           <>
             <p><strong>Start Consumption Date:</strong>
               <input
                 type="date"
-                name="startConsumptionDate"
-                value={editedData.startConsumptionDate || ''}
+                name="START_CONSUMPTION_DATE"
+                value={editedData.START_CONSUMPTION_DATE || ''}
                 onChange={handleChange}
               />
             </p>
             <p><strong>End Consumption Date:</strong>
               <input
                 type="date"
-                name="endConsumptionDate"
-                value={editedData.endConsumptionDate || ''}
+                name="END_CONSUMPTION_DATE"
+                value={editedData.END_CONSUMPTION_DATE || ''}
                 onChange={handleChange}
               />
             </p>
@@ -241,8 +240,8 @@ const Item = () => {
         )}
         {!isEditing && TYPE === "C" && (
           <>
-            <p><strong>Start Consumption Date:</strong> {editedData.startConsumptionDate ? new Date(editedData.startConsumptionDate).toLocaleDateString() : 'N/A'}</p>
-            <p><strong>End Consumption Date:</strong> {editedData.endConsumptionDate ? new Date(editedData.endConsumptionDate).toLocaleDateString() : 'N/A'}</p>
+            <p><strong>Start Consumption Date:</strong> {editedData.START_CONSUMPTION_DATE ? new Date(editedData.START_CONSUMPTION_DATE).toLocaleDateString() : 'N/A'}</p>
+            <p><strong>End Consumption Date:</strong> {editedData.END_CONSUMPTION_DATE ? new Date(editedData.END_CONSUMPTION_DATE).toLocaleDateString() : 'N/A'}</p>
           </>
         )}
       </div>
@@ -255,8 +254,8 @@ const Item = () => {
             <p><strong>Amount:</strong>
               <input
                 type="number"
-                name="quantity"
-                value={editedData.quantity}
+                name="QUANTITY"
+                value={editedData.QUANTITY}
                 onChange={handleChange}
               />
             </p>
